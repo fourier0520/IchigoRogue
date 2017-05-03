@@ -622,26 +622,20 @@ public abstract class MovingObject : MonoBehaviour {
     {
         waitAttackingProcess = true;
 
-        MovingObject other;
-
         Magic MagicInstance = Instantiate(TestMagic, logicalPos, new Quaternion());
         yield return null;
-        MagicInstance.Throw(attackLine, this);
+        MagicInstance.CastMagic(attackLine, this);
         do
         {
             yield return null;
         } while (MagicInstance.isThrown);
-        if (MagicInstance.other)
+        if (MagicInstance.others.Count != 0)
         {
-            other = MagicInstance.other.GetComponent<T>();
-            if (other)
+            StartCoroutine(MagicInstance.MagicEffect(this));
+            do
             {
-                StartCoroutine(MagicInstance.ThrowEffect(other));
-                do
-                {
-                    yield return null;
-                } while (MagicInstance.isWaitAnimation);
-            }
+                yield return null;
+            } while (MagicInstance.isWaitAnimation);
         }
         Destroy(MagicInstance.gameObject);
         waitAttackingProcess = false;

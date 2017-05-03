@@ -6,25 +6,23 @@ using UnityEngine.UI;
 [System.Serializable]
 public class MagicProfile
 {
-    public enum ItemType
+    public enum MagicEffectType
     {
         NoEffect, RecoverLife,
         GainFood,
     }
-    public enum EquipType
+    public enum MagicFigureType
     {
-        None, OneHand, TwoHand, Armor, OneHandDual
+        Self, Shot, 
     }
 
     public string Name = "";
     public string ID = "";
     public string GfxID = "";
-    public ItemType UseEffectTypeValue = ItemType.NoEffect;
-    public string UseEffectType = "NoEffect";
-    public ItemType ThrowEffectTypeValue = ItemType.NoEffect;
-    public string ThrowEffectType = "NoEffect";
-    public EquipType EqTypeValue;
-    public string EqType = "None";
+    public MagicEffectType EffectTypeValue = MagicEffectType.NoEffect;
+    public string EffectType = "NoEffect";
+    public MagicFigureType FigureTypeValue;
+    public string FigureType = "Self";
     public int UsableTime = 1;
     public int Stack = 1;
     public int EffectValue = 1;
@@ -48,17 +46,13 @@ public class MagicProfile
 
     public void ParseStr()
     {
-        if (UseEffectType != "")
+        if (EffectType != "")
         {
-            UseEffectTypeValue = (ItemType)System.Enum.Parse(typeof(ItemType), UseEffectType);
+            EffectTypeValue = (MagicEffectType)System.Enum.Parse(typeof(MagicEffectType), EffectType);
         }
-        if (ThrowEffectType != "")
+        if (FigureType != "")
         {
-            ThrowEffectTypeValue = (ItemType)System.Enum.Parse(typeof(ItemType), ThrowEffectType);
-        }
-        if (EqType != "")
-        {
-            EqTypeValue = (EquipType)System.Enum.Parse(typeof(EquipType), EqType);
+            FigureTypeValue = (MagicFigureType)System.Enum.Parse(typeof(MagicFigureType), FigureType);
         }
 
         foreach (string id in NGJobIDs.Split(',')) NGJobIDsList.Add(id);
@@ -86,8 +80,7 @@ public class MagicProfile
     {
         this.Name = source.Name;
         this.ID = source.ID;
-        this.UseEffectTypeValue = source.UseEffectTypeValue;
-        this.ThrowEffectTypeValue = source.ThrowEffectTypeValue;
+        this.EffectTypeValue = source.EffectTypeValue;
         this.UsableTime = source.UsableTime;
         this.Stack = source.Stack;
         this.EffectValue = source.EffectValue;
@@ -106,8 +99,7 @@ public class MagicProfile
 
         if (
                this.ID != source.ID
-            || this.UseEffectTypeValue != source.UseEffectTypeValue
-            || this.ThrowEffectTypeValue != source.ThrowEffectTypeValue
+            || this.EffectTypeValue != source.EffectTypeValue
             || this.UsableTime != source.UsableTime
             || this.EffectValue != source.EffectValue
             || this.GainFoodValue != source.GainFoodValue
@@ -138,12 +130,13 @@ public class Magic : MonoBehaviour {
     private BoxCollider2D boxCollider;
     private Rigidbody2D rb2D;
     private ParticleSystem Particle;
+    private SpriteRenderer Renderer;
 
     public LayerMask ThrowBlockingLayer;
 
     public Vector2 logicalPos;
 
-    public MovingObject other;
+    public List<GameObject> others;
 
     public MagicProfile Profile;
 
@@ -153,6 +146,7 @@ public class Magic : MonoBehaviour {
         boxCollider = GetComponent<BoxCollider2D>();
         rb2D = GetComponent<Rigidbody2D>();
         Particle = GetComponent<ParticleSystem>();
+        Renderer = GetComponent<SpriteRenderer>();
         logicalPos = transform.position;
     }
 	
@@ -161,18 +155,28 @@ public class Magic : MonoBehaviour {
         StartCoroutine(SmoothMovement(logicalPos));
     }
 
-    public virtual void Throw(Vector2 attackLine, MovingObject owner)
+    public virtual void CastMagic(Vector2 attackLine, MovingObject owner)
     {
-        isThrown = true;
-        other = null;
-        StartCoroutine(ThrowProcess(attackLine, owner));
+        others = new List<GameObject>();
+        MessageWindow.instance.ConOut(owner.Status.Name + "は" + Profile.Name + "を唱えた！\n");
+        if (Profile.FigureTypeValue == MagicProfile.MagicFigureType.Shot)
+        {
+            StartCoroutine(ShotProcess(attackLine, owner));
+        }
+        if (Profile.FigureTypeValue == MagicProfile.MagicFigureType.Self)
+        {
+            Renderer.enabled = false;
+            Particle.Play();
+            others.Add(owner.gameObject);
+        }
     }
 
-    IEnumerator ThrowProcess(Vector2 attackLine, MovingObject owner)
+    IEnumerator ShotProcess(Vector2 attackLine, MovingObject owner)
     {
         Vector2 newAttackLine = new Vector2(0, 0);
         Vector2 lastAttackLine = new Vector2(0, 0);
 
+        isThrown = true;
         float LineLength = Mathf.Max(Mathf.Abs(attackLine.x), Mathf.Abs(attackLine.y));
         for (int i = 0; i <= (int)LineLength; i++)
         {
@@ -182,8 +186,9 @@ public class Magic : MonoBehaviour {
             {
                 break;
             }
-            else if (other = CollisionDetect<MovingObject>(newAttackLine, owner))
+            else if (CollisionDetect<MovingObject>(newAttackLine, owner))
             {
+                others.Add(CollisionDetect<MovingObject>(newAttackLine, owner).gameObject);
                 lastAttackLine = newAttackLine;
                 break;
             }
@@ -194,13 +199,14 @@ public class Magic : MonoBehaviour {
         }
 
         logicalPos += lastAttackLine;
-        Particle.Play();
-        GetComponent<Renderer>().enabled = true;
+        Renderer.enabled = true;
         StartCoroutine(SmoothMovement(logicalPos));
         while (isMoving)
         {
             yield return null;
         }
+        Renderer.enabled = false;
+        Particle.Play();
         isThrown = false;
     }
 
@@ -231,51 +237,27 @@ public class Magic : MonoBehaviour {
         return null;
     }
 
-    public IEnumerator UseEffect(MovingObject owner)
+    public IEnumerator MagicEffect(MovingObject owner)
     {
         isWaitAnimation = true;
 
-        MessageWindow.instance.ConOut(owner.Status.Name + "は" + Profile.Name + "を使った！\n");
         yield return new WaitForSeconds(0.5f);
 
-        if (Profile.UseEffectTypeValue == MagicProfile.ItemType.NoEffect)
-        {
-            MessageWindow.instance.ConOut("しかし何も起きなかった…\n");
-        }
-
-        if (Profile.UseEffectTypeValue == MagicProfile.ItemType.RecoverLife)
-        {
-            MessageWindow.instance.ConOut("HPが" + Profile.EffectValue + "回復した！\n");
-            owner.RecoverLife(Profile.EffectValue);
-        }
-
-        if (Profile.UseEffectTypeValue == MagicProfile.ItemType.GainFood)
-        {
-            MessageWindow.instance.ConOut("お腹が膨れた！\n");
-        }
-
-        if (owner.GetComponent<Player>()) owner.GetComponent<Player>().GainFood(Profile.GainFoodValue);
-
-        yield return new WaitForSeconds(0.5f);
-        isWaitAnimation = false;
-    }
-
-    public IEnumerator ThrowEffect(MovingObject owner)
-    {
-        isWaitAnimation = true;
-
-        MessageWindow.instance.ConOut(Profile.Name + "は" + owner.Status.Name + "に当たった！\n");
-        yield return new WaitForSeconds(0.5f);
-
-        if (Profile.ThrowEffectTypeValue == MagicProfile.ItemType.NoEffect)
+        if (Profile.EffectTypeValue == MagicProfile.MagicEffectType.NoEffect)
         {
             MessageWindow.instance.ConOut("しかし何も起きなかった…\n", MessageWindow.ConOutType.Add);
         }
 
-        if (Profile.ThrowEffectTypeValue == MagicProfile.ItemType.RecoverLife)
-        {
-            MessageWindow.instance.ConOut("HPが" + Profile.EffectValue + "回復した！\n", MessageWindow.ConOutType.Add);
-            owner.RecoverLife(Profile.EffectValue);
+        foreach (GameObject other in others){
+            MovingObject m;
+            if (m  = other.GetComponent<MovingObject>())
+            {
+                if (Profile.EffectTypeValue == MagicProfile.MagicEffectType.RecoverLife)
+                {
+                    MessageWindow.instance.ConOut(m.Status.Name + "のHPが" + Profile.EffectValue + "回復した！\n", MessageWindow.ConOutType.Add);
+                    owner.RecoverLife(Profile.EffectValue);
+                }
+            }
         }
         while (Particle.isPlaying)
         {
