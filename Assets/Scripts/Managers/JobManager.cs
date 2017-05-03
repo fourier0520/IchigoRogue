@@ -125,7 +125,7 @@ public class JobManager : MonoBehaviour {
 
         NKTextMan.saveText("/Jobs_.json", JsonUtility.ToJson(instance, true));
 
-        string json = SaveManager.LoadJson("", "/Jobs.json");
+        string json = SaveManager.LoadJson("/_Data", "/Jobs.json");
         JsonUtility.FromJsonOverwrite(json, instance);
     }
 
