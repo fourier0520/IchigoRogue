@@ -1,0 +1,5 @@
+Name	ID	GfxID	UseEffectType	ThrowEffectType	UsableTime	Stack	EffectValue	GainFoodValue	Attribute	Attack	AttackCriticalRate	AttackTimes	EqType	NGJobIDs	Defence	Dodge
+いちご	Ichigo	Ichigo	GainFood	NoEffect	1	1	0	5000	Stackable	0	0	0				
+大きないちご	OokinaIchigo	Ichigo	GainFood	NoEffect	1	1	0	10000		0	0	0				
+ロングソード	LongSword	OneHandSword	NoEffect	NoEffect	0	1	0	0		15	10	1	OneHandDual	Grappler		
+ソフトレザー	SoftLeather	SoftLeather	NoEffect	NoEffect	0	1	0	0		0	0	0	Armor	Grappler	3	0

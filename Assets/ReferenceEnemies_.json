@@ -1,0 +1,50 @@
+{
+    "ReferenceEnemies": [
+        {
+            "Name": "",
+            "ID": "",
+            "GfxId": "",
+            "food": 10000,
+            "food_max": 10000,
+            "gold": 0,
+            "exp": 0,
+            "jobexp": 3000,
+            "OriginalActionCommandTime": 60,
+            "level": 1,
+            "life": 5,
+            "life_max": 5,
+            "NwAttack": 5,
+            "NwAttackTimes": 1,
+            "NwAttackCriticalRate": 10,
+            "AttackBase": 1,
+            "Defence": 0,
+            "Aim": 0,
+            "Dodge": 0,
+            "CritOffset": 0,
+            "AdditionalAttackTimes": 0
+        },
+        {
+            "Name": "",
+            "ID": "",
+            "GfxId": "",
+            "food": 10000,
+            "food_max": 10000,
+            "gold": 0,
+            "exp": 0,
+            "jobexp": 3000,
+            "OriginalActionCommandTime": 60,
+            "level": 1,
+            "life": 5,
+            "life_max": 5,
+            "NwAttack": 5,
+            "NwAttackTimes": 1,
+            "NwAttackCriticalRate": 10,
+            "AttackBase": 1,
+            "Defence": 0,
+            "Aim": 0,
+            "Dodge": 0,
+            "CritOffset": 0,
+            "AdditionalAttackTimes": 0
+        }
+    ]
+}

@@ -1,0 +1,11 @@
+Name,ID,GfxId,gold,exp,OriginalActionCommandTime,level,life,life_max,NwAttack,NwAttackTimes,NwAttackCriticalRate,AttackBase,Defence,Dodge,CritOffset,AdditionalAttackTimes
+コボルト,Kobold,Kobold,0,0,60,1,15,15,5,1,13,1,0,0,0,0
+コウモリ,Bat,Bat,0,0,60,1,10,10,5,1,13,0,0,2,0,0
+ジャイアントリザード,GiantLizard,GiantLizard,0,0,60,2,25,25,10,1,13,3,1,0,0,0
+レッサーオーガ,LesserOgre,LesserOgre,0,0,60,3,35,35,10,1,13,5,1,0,0,0
+マタンゴ,Matango,Matango,0,0,60,3,35,35,10,1,13,4,1,0,0,0
+ギルマン,Gillman,Gillman,0,0,60,4,40,40,15,1,13,6,3,0,0,0
+ゾンビ,Zombie,Zombie,0,0,60,5,50,50,20,1,13,8,3,-2,0,0
+ストーンゴーレム,StoneGolem,StoneGolem,0,0,60,6,40,40,20,1,13,9,6,-2,0,0
+オーガ,Ogre,Ogre,0,0,60,7,60,60,25,1,11,9,4,0,0,0
+サキュバス,Succubus,Succubus,0,0,30,8,60,60,15,1,13,7,2,1,0,0

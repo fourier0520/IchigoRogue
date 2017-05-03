@@ -1,0 +1,1 @@
+{"EmptyJobList":[{"ID":"Fighter","Name":"ファイター","Level":0},{"ID":"Fencer","Name":"フェンサー","Level":0},{"ID":"Grappler","Name":"グラップラー","Level":0}],"ReferenceSkillList":[{"ID":"Zenryoku","Name":"全力攻撃","IsActiveSkill":true,"RequireLevel":[{"JobID":"Fighter","Level":1}],"RequireCurrentJob":""}]}

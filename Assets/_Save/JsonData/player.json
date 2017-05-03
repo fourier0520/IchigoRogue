@@ -1,0 +1,59 @@
+{
+    "Status": {
+        "Name": "アリーチェ",
+        "ID": "",
+        "GfxId": "",
+        "food": 10000,
+        "food_max": 10000,
+        "gold": 0,
+        "exp": 0,
+        "jobexp": 3000,
+        "OriginalActionCommandTime": 60,
+        "level": 1,
+        "life": 25,
+        "life_max": 25,
+        "NwAttack": 5,
+        "NwAttackTimes": 1,
+        "NwAttackCriticalRate": 10,
+        "AttackBase": 1,
+        "Defence": 0,
+        "Aim": 0,
+        "Dodge": 0,
+        "CritOffset": 0,
+        "AdditionalAttackTimes": 0
+    },
+    "Buffs": [],
+    "Inventory": {
+        "Items": [],
+        "Size": 40
+    },
+    "JobList": [
+        {
+            "ID": "Fighter",
+            "Name": "ファイター",
+            "Level": 0
+        },
+        {
+            "ID": "Fencer",
+            "Name": "フェンサー",
+            "Level": 0
+        },
+        {
+            "ID": "Grappler",
+            "Name": "グラップラー",
+            "Level": 0
+        }
+    ],
+    "CurrentJob": {
+        "ID": "Fighter",
+        "Name": "ファイター",
+        "Level": 0
+    },
+    "ActiveSkillID": "",
+    "CurrentMapID": "TestDungeon",
+    "CurrentMapLevel": 1,
+    "logicalPos": {
+        "x": 13.0,
+        "y": 4.0
+    }
+}

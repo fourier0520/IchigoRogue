@@ -1,0 +1,28 @@
+{
+    "ItemProfileList": [
+        {
+            "Name": "ソフトレザー",
+            "ID": "SoftLether",
+            "GfxID": "Ichigo",
+            "UseEffectTypeValue": 1,
+            "UseEffectType": "",
+            "ThrowEffectTypeValue": 1,
+            "ThrowEffectType": "",
+            "EqTypeValue": 0,
+            "EqType": "",
+            "UsableTime": 0,
+            "Stack": 1,
+            "EffectValue": 0,
+            "GainFoodValue": 0,
+            "Attribute": "",
+            "stackable": false,
+            "NGJobIDsList": [],
+            "NGJobIDs": "",
+            "Attack": 0,
+            "AttackCriticalRate": 0,
+            "AttackTimes": 0,
+            "Defence": 3,
+            "Dodge": 0
+        }
+    ]
+}

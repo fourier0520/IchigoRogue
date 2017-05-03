@@ -1,0 +1,26 @@
+{
+    "Moster": [
+        {
+            "StartLevel": 1,
+            "EndLevel": 100,
+            "Rates": [
+                {
+                    "MonsterID": "kobold",
+                    "Rate": 1
+                }
+            ]
+        }
+    ],
+    "Item": [
+        {
+            "StartLevel": 1,
+            "EndLevel": 100,
+            "Rates": [
+                {
+                    "ItemID": "Ichigo",
+                    "Rate": 1
+                }
+            ]
+        }
+    ]
+}

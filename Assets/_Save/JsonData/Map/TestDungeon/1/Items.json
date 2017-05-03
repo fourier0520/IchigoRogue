@@ -1,0 +1,24 @@
+{
+    "Nodes": [
+        {
+            "ID": "LongSword",
+            "stack": 1,
+            "UsableTime": 0
+        },
+        {
+            "ID": "LongSword",
+            "stack": 1,
+            "UsableTime": 0
+        }
+    ],
+    "LogicalPos": [
+        {
+            "x": 18.0,
+            "y": 9.0
+        },
+        {
+            "x": 1.0,
+            "y": 9.0
+        }
+    ]
+}
