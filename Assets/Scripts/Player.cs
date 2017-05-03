@@ -289,8 +289,7 @@ public class Player : MovingObject
             {
 
                 SetAttackLine(GetDirection() * 5);
-                AnimationType = AttackAnimationType.Throw;
-                SetCommand(TurnCommand.ThrowItem);
+                SetCommand(TurnCommand.CastMagic);
             }
         }
 

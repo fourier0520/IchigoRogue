@@ -122,7 +122,8 @@ public abstract class MovingObject : MonoBehaviour {
     {
         Attack, Move, ThrowItem, UseItem, Undef,
         MoveMap,
-        PutItem
+        PutItem,
+        CastMagic
     }
 
     public enum AttackAnimationType
@@ -588,10 +589,6 @@ public abstract class MovingObject : MonoBehaviour {
         waitAttackingProcess = true;
 
         MovingObject other;
-        List<MovingObject> others = new List<MovingObject>();
-        List<int> damege = new List<int>();
-        others.Clear();
-        damege.Clear();
 
         AttackAnimation();
         ThrowItemInstance = Item.GenerateItemFromNode(ThrowItem, logicalPos);
@@ -615,6 +612,38 @@ public abstract class MovingObject : MonoBehaviour {
                 } while (ThrowItemInstance.isWaitAnimation);
             }
         }
+        waitAttackingProcess = false;
+    }
+
+    public Magic TestMagic;
+
+    public virtual IEnumerator CastMagic<T>()
+        where T : MovingObject
+    {
+        waitAttackingProcess = true;
+
+        MovingObject other;
+
+        Magic MagicInstance = Instantiate(TestMagic, logicalPos, new Quaternion());
+        yield return null;
+        MagicInstance.Throw(attackLine, this);
+        do
+        {
+            yield return null;
+        } while (MagicInstance.isThrown);
+        if (MagicInstance.other)
+        {
+            other = MagicInstance.other.GetComponent<T>();
+            if (other)
+            {
+                StartCoroutine(MagicInstance.ThrowEffect(other));
+                do
+                {
+                    yield return null;
+                } while (MagicInstance.isWaitAnimation);
+            }
+        }
+        Destroy(MagicInstance.gameObject);
         waitAttackingProcess = false;
     }
 

@@ -54,6 +54,7 @@ public class GameManager : MonoBehaviour
         MoveMap,
         CheckPlayerAct,
         PlayerPutItem,
+        PlayerCastMagic,
     };
 
     public GamePhase phase = GamePhase.PlayerAttack;
@@ -211,6 +212,11 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        if (phase == GamePhase.VerifyThrownItemPos)
+        {
+            phase = GamePhase.PlayerUseItem;
+        }
+
         if (phase == GamePhase.PlayerPutItem)
         {
             phase = GamePhase.PlayerUseItem;
@@ -225,18 +231,25 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        if (phase == GamePhase.VerifyThrownItemPos)
-        {
-            phase = GamePhase.PlayerUseItem;
-        }
-
         if (phase == GamePhase.PlayerUseItem)
         {
-            phase = GamePhase.PlayerMove;
+            phase = GamePhase.PlayerCastMagic;
             if (player.GetCommand() == MovingObject.TurnCommand.UseItem)
             {
                 player.SetCommand(MovingObject.TurnCommand.Undef);
                 PlayerUseItem();
+                return;
+            }
+        }
+
+        if (phase == GamePhase.PlayerCastMagic)
+        {
+            phase = GamePhase.PlayerMove;
+            if (player.GetCommand() == MovingObject.TurnCommand.CastMagic)
+            {
+                player.SetCommand(MovingObject.TurnCommand.Undef);
+                CastMagicMovingObject(player);
+                // Enemyが死ぬ可能性がある場合は一旦Returnしてコルーチンの処理を待つ
                 return;
             }
         }
@@ -453,10 +466,14 @@ public class GameManager : MonoBehaviour
         StartCoroutine(AttackMovingObjectRoutine(obj));
     }
 
-
     void ThrowMovingObject(MovingObject obj)
     {
         StartCoroutine(ThrowMovingObjectRoutine(obj));
+    }
+
+    void CastMagicMovingObject(MovingObject obj)
+    {
+        StartCoroutine(CastMagicMovingObjectRoutine(obj));
     }
 
     protected IEnumerator AttackMovingObjectRoutine(MovingObject obj)
@@ -493,6 +510,19 @@ public class GameManager : MonoBehaviour
                 Destroy(obj.ThrowItemInstance.gameObject);
             }
         }
+        playerAttacking = false;
+    }
+
+    protected IEnumerator CastMagicMovingObjectRoutine(MovingObject obj)
+    {
+        playerAttacking = true;
+
+        StartCoroutine(obj.CastMagic<MovingObject>());
+        do
+        {
+            yield return null;
+        } while (obj.waitAttackingProcess);
+
         playerAttacking = false;
     }
 

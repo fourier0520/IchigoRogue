@@ -58,7 +58,6 @@ public class Item : MonoBehaviour {
         return true;
     }
 
-
     public virtual void Throw(Vector2 attackLine, MovingObject owner)
     {
         isThrown = true;
@@ -121,13 +120,6 @@ public class Item : MonoBehaviour {
 
         //GetComponent<Renderer>().enabled = false;
         isThrown = false;
-    }
-
-    IEnumerator ThrowAnimation(Vector2 end)
-    {
-        isMoving = true;
-        yield return null;
-        isMoving = false;
     }
 
     public virtual T CollisionDetect<T>(Vector2 end, MovingObject owner)
