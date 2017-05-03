@@ -1,5 +1,12 @@
-Name	ID	GfxID	UseEffectType	ThrowEffectType	UsableTime	Stack	EffectValue	GainFoodValue	Attribute	Attack	AttackCriticalRate	AttackTimes	EqType	NGJobIDs	Defence	Dodge
-いちご	Ichigo	Ichigo	GainFood	NoEffect	1	1	0	5000	Stackable	0	0	0				
-大きないちご	OokinaIchigo	Ichigo	GainFood	NoEffect	1	1	0	10000		0	0	0				
-ロングソード	LongSword	OneHandSword	NoEffect	NoEffect	0	1	0	0		15	10	1	OneHandDual	Grappler		
-ソフトレザー	SoftLeather	SoftLeather	NoEffect	NoEffect	0	1	0	0		0	0	0	Armor	Grappler	3	0
+Name,ID,GfxID,UseEffectType,ThrowEffectType,UsableTime,Stack,EffectValue,GainFoodValue,Attribute,Attack,AttackCriticalRate,AttackTimes,AttackBase,Aim,EqType,NGJobIDs,Defence,Dodge
+いちご,Ichigo,Ichigo,GainFood,NoEffect,1,1,0,5000,,0,0,0,0,0,,,,
+大きないちご,OokinaIchigo,Ichigo,GainFood,NoEffect,1,1,0,10000,,0,0,0,0,0,,,,
+ポーション,Potion,Potion,RecoverLife,RecoverLife,1,1,25,500,,0,0,0,0,0,,,,
+セスタス,Cestus,Crow,NoEffect,NoEffect,0,1,0,0,,5,10,1,0,1,OneHandDual,"Fighter,Fencer",,
+ロングソード,LongSword,OneHandSword,NoEffect,NoEffect,0,1,0,0,,15,10,1,0,0,OneHandDual,Grappler,,
+ツーハンドソード,TwoHandSword,TwoHandSword,NoEffect,NoEffect,0,1,0,0,,30,10,1,0,0,TwoHand,Grappler,0,0
+ドラゴンスレイヤー,DragonSlayer,TwoHandSword,NoEffect,NoEffect,0,1,0,0,,45,10,1,0,0,TwoHand,Grappler,0,0
+ソフトレザー,SoftLeather,SoftLeather,NoEffect,NoEffect,0,1,0,0,,0,0,0,0,0,Armor,Grappler,6,0
+スプリントアーマー,SprintArmor,SprintArmor,NoEffect,NoEffect,0,1,0,0,,0,0,0,0,0,Armor,Grappler,10,0
+ポイントガード,PointGuard,SoftLeather,NoEffect,NoEffect,0,1,0,0,,0,0,0,0,0,Armor,"Fighter,Fencer",0,2
+アラミドコート,AramidCoat,SoftLeather,NoEffect,NoEffect,0,1,0,0,,0,0,0,0,0,Armor,"Fighter,Fencer",4,2

@@ -62,6 +62,31 @@ public class Player : MovingObject
         else if (CurrentJob.ID == "") CurrentJob = JobList[0];
     }
 
+    private void PatchSkillEffect(SkillEffect b)
+    {
+        switch (b.TypeValue)
+        {
+            case SkillEffect.EffectType.UpAttack:
+                Status.AttackBase += b.Value;
+                break;
+            case SkillEffect.EffectType.UpCrit:
+                Status.CritOffset += b.Value;
+                break;
+            case SkillEffect.EffectType.UpDodge:
+                Status.Dodge += b.Value;
+                break;
+            case SkillEffect.EffectType.UpAim:
+                Status.Aim += b.Value;
+                break;
+            case SkillEffect.EffectType.AddAttackTimes:
+                Status.AdditionalAttackTimes += b.Value;
+                break;
+            case SkillEffect.EffectType.UpLife:
+                Status.life_max += b.Value;
+                break;
+        }
+    }
+
     protected override void UpdateStatus()
     {
         //ベース計算
@@ -100,51 +125,16 @@ public class Player : MovingObject
         {
             foreach (SkillEffect b in ActiveSkill.SkillEffect)
             {
-                switch (b.Type)
-                {
-                    case SkillEffect.EffectType.UpAttack:
-                        Status.AttackBase += b.Value;
-                        break;
-                    case SkillEffect.EffectType.UpCrit:
-                        Status.CritOffset += b.Value;
-                        break;
-                    case SkillEffect.EffectType.UpDodge:
-                        Status.Dodge += b.Value;
-                        break;
-                    case SkillEffect.EffectType.UpAim:
-                        Status.Aim += b.Value;
-                        break;
-                    case SkillEffect.EffectType.AddAttackTimes:
-                        Status.AdditionalAttackTimes += b.Value;
-                        break;
-                }
+                PatchSkillEffect(b);
             }
         }
 
         foreach(SkillData s in UsableSkill)
         {
             if (s.IsActiveSkill) continue;
-            for (int i = 0; i < s.SkillEffect.Count; i++)
+            foreach (SkillEffect b in s.SkillEffect)
             {
-                SkillEffect b = s.SkillEffect[i];
-                switch (b.Type)
-                {
-                    case SkillEffect.EffectType.UpAttack:
-                        Status.AttackBase += b.Value;
-                        break;
-                    case SkillEffect.EffectType.UpCrit:
-                        Status.CritOffset += b.Value;
-                        break;
-                    case SkillEffect.EffectType.UpDodge:
-                        Status.Dodge += b.Value;
-                        break;
-                    case SkillEffect.EffectType.UpAim:
-                        Status.Aim += b.Value;
-                        break;
-                    case SkillEffect.EffectType.AddAttackTimes:
-                        Status.AdditionalAttackTimes += b.Value;
-                        break;
-                }
+                PatchSkillEffect(b);
             }
         }
 
@@ -410,7 +400,7 @@ public class Player : MovingObject
         {
             foreach (SkillEffect b in ActiveSkill.SkillEffect)
             {
-                if (b.Type == SkillEffect.EffectType.Hit3Way) return true;
+                if (b.TypeValue == SkillEffect.EffectType.Hit3Way) return true;
             }
         }
         foreach (SkillData s in UsableSkill)
@@ -419,7 +409,7 @@ public class Player : MovingObject
             for (int i = 0; i < s.SkillEffect.Count; i++)
             {
                 SkillEffect b = s.SkillEffect[i];
-                if (b.Type == SkillEffect.EffectType.Hit3Way) return true;
+                if (b.TypeValue == SkillEffect.EffectType.Hit3Way) return true;
             }
         }
         return false;

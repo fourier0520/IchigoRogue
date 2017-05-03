@@ -21,6 +21,8 @@
             "Attack": 0,
             "AttackCriticalRate": 0,
             "AttackTimes": 0,
+            "AttackBase": 0,
+            "Aim": 0,
             "Defence": 3,
             "Dodge": 0
         }

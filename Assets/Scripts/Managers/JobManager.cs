@@ -18,16 +18,26 @@ public class SkillEffect
         NoEffect, UpAttack, UpDodge, UpCrit,
         AddAttackTimes,
         Hit3Way, UpAim,
+        UpLife,
     }
     public int Value = 0;
-    public EffectType Type = EffectType.NoEffect;
+    public EffectType TypeValue = EffectType.NoEffect;
+    public string Type = "";
+
+    public void ParseStr()
+    {
+        if (Type != "")
+        {
+            TypeValue = (EffectType)System.Enum.Parse(typeof(EffectType), Type);
+        }
+    }
 }
 
 [System.Serializable]
 public class SkillData
 {
-    public string ID = "";
     public string Name = "";
+    public string ID = "";
     public bool IsActiveSkill = true;
     
     public List<Requirement> RequireLevel = new List<Requirement>();
@@ -51,8 +61,8 @@ public class SkillData
 [System.Serializable]
 public class JobData
 {
-    public string ID = "";
     public string Name = "";
+    public string ID = "";
     public int Level = 0;
     int TableType = 0;
 
@@ -127,6 +137,13 @@ public class JobManager : MonoBehaviour {
 
         string json = SaveManager.LoadJson("/_Data", "/Jobs.json");
         JsonUtility.FromJsonOverwrite(json, instance);
+        foreach (SkillData s in instance.ReferenceSkillList)
+        {
+            foreach(SkillEffect e in s.SkillEffect)
+            {
+                e.ParseStr();
+            }
+        }
     }
 
     // Update is called once per frame
@@ -162,6 +179,15 @@ public class JobManager : MonoBehaviour {
                 foreach (JobData j in Jobs)
                 {
                     if (j.ID == s.RequireLevel[i].JobID && j.Level < s.RequireLevel[i].Level)
+                    {
+                        valid = false;
+                        break;
+                    }
+                }
+                // ID重複チェック
+                foreach (SkillData t in tmp)
+                {
+                    if (t.ID == s.ID)
                     {
                         valid = false;
                         break;

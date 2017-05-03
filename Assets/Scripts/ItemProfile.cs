@@ -165,6 +165,8 @@ public class ItemProfile
     public int Attack = 0;
     public int AttackCriticalRate = 13;
     public int AttackTimes = 1;
+    public int AttackBase = 0;
+    public int Aim = 0;
 
     //防具性能
     public int Defence = 0;

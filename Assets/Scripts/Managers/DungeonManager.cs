@@ -200,7 +200,6 @@ public class DungeonManager : MonoBehaviour
             } while (GameManager.instance.ExitstMovingObject(randomPosition));
 
             string id = Profile.GetRandomEnemyID(level);
-            print (id);
             EnemyManager.instance.GenerateEnemyFromID(id, randomPosition);
         }
     }

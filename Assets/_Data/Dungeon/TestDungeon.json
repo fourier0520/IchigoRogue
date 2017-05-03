@@ -122,11 +122,47 @@
             "Rates": [
                 {
                     "ItemID": "Ichigo",
-                    "Rate": 2
+                    "Rate": 250
+                },
+                {
+                    "ItemID": "OokinaIchigo",
+                    "Rate": 250
+                },
+                {
+                    "ItemID": "Potion",
+                    "Rate": 1000
                 },
                 {
                     "ItemID": "LongSword",
-                    "Rate": 1
+                    "Rate": 100
+                },
+                {
+                    "ItemID": "Cestus",
+                    "Rate": 100
+                },
+                {
+                    "ItemID": "TwoHandSword",
+                    "Rate": 100
+                },
+                {
+                    "ItemID": "DragonSlayer",
+                    "Rate": 50
+                },
+                {
+                    "ItemID": "SoftLeather",
+                    "Rate": 100
+                },
+                {
+                    "ItemID": "SprintArmor",
+                    "Rate": 75
+                },
+                {
+                    "ItemID": "PointGuard",
+                    "Rate": 100
+                },
+                {
+                    "ItemID": "AramidCoat",
+                    "Rate": 25
                 }
             ]
         }

@@ -31,11 +31,29 @@
             "SkillEffect": [
                 {
                     "Value": 4,
-                    "Type": 1
+                    "Type": "UpAttack"
                 },
                 {
                     "Value": -2,
-                    "Type": 2
+                    "Type": "UpDodge"
+                }
+            ]
+        },
+        {
+            "ID": "Taffness",
+            "Name": "タフネス",
+            "IsActiveSkill": false,
+            "RequireLevel": [
+                {
+                    "JobID": "Fighter",
+                    "Level": 7
+                }
+            ],
+            "RequireCurrentJob": "",
+            "SkillEffect": [
+                {
+                    "Value": 15,
+                    "Type": "UpLife"
                 }
             ]
         },
@@ -53,7 +71,7 @@
             "SkillEffect": [
                 {
                     "Value": 0,
-                    "Type": 5
+                    "Type": "Hit3Way"
                 }
             ]
         },
@@ -71,11 +89,11 @@
             "SkillEffect": [
                 {
                     "Value": -1,
-                    "Type": 3
+                    "Type": "UpCrit"
                 },
                 {
                     "Value": -1,
-                    "Type": 2
+                    "Type": "UpDodge"
                 }
             ]
         },
@@ -93,7 +111,7 @@
             "SkillEffect": [
                 {
                     "Value": 1,
-                    "Type": 4
+                    "Type": "AddAttackTimes"
                 }
             ]
         }

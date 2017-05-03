@@ -502,6 +502,8 @@ public abstract class MovingObject : MonoBehaviour {
         int[] Attack = { Status.NwAttack, 0 };
         int[] AttackTimes = { Status.NwAttackTimes, 0 };
         int[] CriticalRate = { Status.NwAttackCriticalRate, 13 };
+        int[] AttackBase = { Status.AttackBase, 0 };
+        int[] Aim = { Status.Aim, 0 };
 
         ItemProfile RightHand = null;
         if (Equip.RightHand != null) RightHand = ItemManager.instance.GetItemProfileFromID(Equip.RightHand.ID);
@@ -514,6 +516,8 @@ public abstract class MovingObject : MonoBehaviour {
             Attack[0] = RightHand.Attack;
             AttackTimes[0] = RightHand.AttackTimes;
             CriticalRate[0] = RightHand.AttackCriticalRate;
+            AttackBase[0] = Status.AttackBase + RightHand.AttackBase;
+            Aim[0] = Status.Aim + RightHand.Aim;
         }
         // 左手の攻撃
         if (LeftHand != null)
@@ -550,9 +554,9 @@ public abstract class MovingObject : MonoBehaviour {
                     if (other)
                     {
                         others.Add(other);
-                        if (BattleHit(Status.Aim, other.Status.Dodge))
+                        if (BattleHit(Aim[0], other.Status.Dodge))
                         {
-                            damege.Add(BattlePhyDamege(Attack[i], Status.AttackBase, CriticalRate[i], other.Status.Defence, out tmp));
+                            damege.Add(BattlePhyDamege(Attack[i], AttackBase[i], CriticalRate[i], other.Status.Defence, out tmp));
                             crit.Add(tmp);
                         }
                         else

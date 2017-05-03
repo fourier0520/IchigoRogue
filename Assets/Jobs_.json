@@ -1,25 +1,25 @@
 {
     "EmptyJobList": [
         {
-            "ID": "Fighter",
             "Name": "ファイター",
+            "ID": "Fighter",
             "Level": 0
         },
         {
-            "ID": "Fencer",
             "Name": "フェンサー",
+            "ID": "Fencer",
             "Level": 0
         },
         {
-            "ID": "Grappler",
             "Name": "グラップラー",
+            "ID": "Grappler",
             "Level": 0
         }
     ],
     "ReferenceSkillList": [
         {
-            "ID": "Zenryoku",
             "Name": "全力攻撃",
+            "ID": "Zenryoku",
             "IsActiveSkill": true,
             "RequireLevel": [
                 {
@@ -31,11 +31,13 @@
             "SkillEffect": [
                 {
                     "Value": 4,
-                    "Type": 2
+                    "TypeValue": 0,
+                    "Type": ""
                 },
                 {
                     "Value": -2,
-                    "Type": 0
+                    "TypeValue": 0,
+                    "Type": ""
                 }
             ]
         }

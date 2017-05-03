@@ -10,7 +10,6 @@ public class ItemManager : MonoBehaviour {
         public List<ItemProfile> ItemProfileList;
     }
 
-    public List<Item> ItemList;
     public List<Item> ItemTempleteList;
     public List<ItemProfile> ItemProfileList;
     static public ItemManager instance = null;
@@ -73,18 +72,6 @@ public class ItemManager : MonoBehaviour {
         item.Node = new ItemNode(node);
         item.Profile = p;
         return item;
-    }
-
-    public Item GetItemFromID(string ID)
-    {
-        for (int i = 0; i < ItemList.Count; i++)
-        {
-            if (ItemList[i].Profile.ID == ID)
-            {
-                return ItemList[i];
-            }
-        }
-        return null;
     }
 
     /// <summary>
