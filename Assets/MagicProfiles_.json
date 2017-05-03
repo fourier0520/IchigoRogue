@@ -1,0 +1,24 @@
+{
+    "MagicProfileList": [
+        {
+            "Name": "キュア・ウーンズ",
+            "ID": "CureWounds",
+            "GfxID": "RecoverLife",
+            "EffectTypeValue": 1,
+            "EffectType": "",
+            "FigureTypeValue": 0,
+            "FigureType": "",
+            "EffectValue": 15,
+            "Attribute": "",
+            "MonsterID": "",
+            "Attack": 0,
+            "AttackCriticalRate": 0,
+            "AttackTimes": 0,
+            "AttackBase": 0,
+            "Aim": 0,
+            "Range": 0,
+            "Defence": 0,
+            "Dodge": 0
+        }
+    ]
+}

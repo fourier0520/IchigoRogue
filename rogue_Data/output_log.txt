@@ -7,64 +7,52 @@ Direct3D:
     VRAM:     1136 MB
     Driver:   20.19.15.4549
 Begin MonoManager ReloadAssembly
-Platform assembly: C:\Users\Owner\Documents\Unity\RogueLike\rogue_Data\Managed\UnityEngine.dll (this message is harmless)
-Loading C:\Users\Owner\Documents\Unity\RogueLike\rogue_Data\Managed\UnityEngine.dll into Unity Child Domain
-Platform assembly: C:\Users\Owner\Documents\Unity\RogueLike\rogue_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
-Loading C:\Users\Owner\Documents\Unity\RogueLike\rogue_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
-Platform assembly: C:\Users\Owner\Documents\Unity\RogueLike\rogue_Data\Managed\Assembly-CSharp.dll (this message is harmless)
-Loading C:\Users\Owner\Documents\Unity\RogueLike\rogue_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
-Platform assembly: C:\Users\Owner\Documents\Unity\RogueLike\rogue_Data\Managed\UnityEngine.UI.dll (this message is harmless)
-Loading C:\Users\Owner\Documents\Unity\RogueLike\rogue_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
-Platform assembly: C:\Users\Owner\Documents\Unity\RogueLike\rogue_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
-Loading C:\Users\Owner\Documents\Unity\RogueLike\rogue_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
-- Completed reload, in  0.026 seconds
-Platform assembly: C:\Users\Owner\Documents\Unity\RogueLike\rogue_Data\Managed\System.Core.dll (this message is harmless)
-Platform assembly: C:\Users\Owner\Documents\Unity\RogueLike\rogue_Data\Managed\System.dll (this message is harmless)
+Platform assembly: C:\Users\Owner\Documents\github\IchigoRogue\rogue_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\Owner\Documents\github\IchigoRogue\rogue_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\Owner\Documents\github\IchigoRogue\rogue_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
+Loading C:\Users\Owner\Documents\github\IchigoRogue\rogue_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
+Platform assembly: C:\Users\Owner\Documents\github\IchigoRogue\rogue_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\Owner\Documents\github\IchigoRogue\rogue_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\Owner\Documents\github\IchigoRogue\rogue_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\Owner\Documents\github\IchigoRogue\rogue_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\Owner\Documents\github\IchigoRogue\rogue_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\Users\Owner\Documents\github\IchigoRogue\rogue_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+- Completed reload, in  0.037 seconds
+Platform assembly: C:\Users\Owner\Documents\github\IchigoRogue\rogue_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Users\Owner\Documents\github\IchigoRogue\rogue_Data\Managed\System.dll (this message is harmless)
 desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
 <RI> Initialized touch support.
-UnloadTime: 1.543122 ms
+UnloadTime: 1.498051 ms
 Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 6.404984 ms
-Could not find a part of the path "C:\Users\Owner\Documents\Unity\RogueLike\rogue_Data\_Save\JsonData\player.json".
+UnloadTime: 5.802997 ms
+Could not find a part of the path "C:\Users\Owner\Documents\github\IchigoRogue\rogue_Data\_Save\JsonData\System.json".
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-Could not find a part of the path "C:\Users\Owner\Documents\Unity\RogueLike\rogue_Data\_Save\JsonData\Map\TestDungeon\1\Map.json".
+Could not find a part of the path "C:\Users\Owner\Documents\github\IchigoRogue\rogue_Data\_Save\JsonData\Map\TestDungeon\1\Map.json".
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-Could not find a part of the path "C:\Users\Owner\Documents\Unity\RogueLike\rogue_Data\_Save\JsonData\player.json".
+Could not find a part of the path "C:\Users\Owner\Documents\github\IchigoRogue\rogue_Data\_Save\JsonData\player.json".
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-Could not find a part of the path "C:\Users\Owner\Documents\Unity\RogueLike\rogue_Data\_Save\JsonData\Map\TestDungeon\1\Enemies.json".
+Could not find a part of the path "C:\Users\Owner\Documents\github\IchigoRogue\rogue_Data\_Save\JsonData\Map\TestDungeon\1\Enemies.json".
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-Could not find a part of the path "C:\Users\Owner\Documents\Unity\RogueLike\rogue_Data\_Save\JsonData\Map\TestDungeon\1\Items.json".
+Could not find a part of the path "C:\Users\Owner\Documents\github\IchigoRogue\rogue_Data\_Save\JsonData\Map\TestDungeon\1\Items.json".
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
 
-Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 2576.
-Total: 0.879999 ms (FindLiveObjects: 0.149492 ms CreateObjectMapping: 0.051764 ms MarkObjects: 0.668924 ms  DeleteObjects: 0.008924 ms)
-
-Kobold
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-Kobold
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-Kobold
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 2747.
+Total: 1.072331 ms (FindLiveObjects: 0.131196 ms CreateObjectMapping: 0.064259 ms MarkObjects: 0.867058 ms  DeleteObjects: 0.009371 ms)
 
 Setting up 4 worker threads for Enlighten.
-  Thread -> id: 2828 -> priority: 1 
-  Thread -> id: 708 -> priority: 1 
-  Thread -> id: 30a0 -> priority: 1 
-  Thread -> id: f8 -> priority: 1 
+  Thread -> id: 7cfc -> priority: 1 
+  Thread -> id: 7a74 -> priority: 1 
+  Thread -> id: 7488 -> priority: 1 
+  Thread -> id: 75a8 -> priority: 1 

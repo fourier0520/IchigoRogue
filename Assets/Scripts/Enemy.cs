@@ -8,6 +8,8 @@ public class Enemy : MovingObject
     static public bool allowEnemyMoveAnimation = true;
     public static int Count = 0;
 
+    int TurnCount = 0;
+
     //MovingObjectのStartメソッドを継承
     protected override void Start()
     {
@@ -41,6 +43,12 @@ public class Enemy : MovingObject
         int xDir = 0;
         int yDir = 0;
 
+
+        if (Status.UsableMagicList.Count > 0) SetCommand(SpecialCommand());
+
+        if (GetCommand() != TurnCommand.Undef)
+            print(UseMagic);
+
         Vector2 distance = GameManager.instance.player.logicalPos - logicalPos;
         if (GetCommand() == TurnCommand.Undef)
         {
@@ -68,12 +76,51 @@ public class Enemy : MovingObject
                 SetCommand(TurnCommand.Move);
             }
         }
+
+        TurnCount++;
         return GetCommand();
     }
 
-    protected override void OnCantMove<T>(T component)
+    private TurnCommand SpecialCommand()
     {
-        //
+        Vector2 TargetPos = GameManager.instance.player.logicalPos;
+
+        if (Status.UsableMagicList.Count != 0)
+        {
+            foreach (string m in Status.UsableMagicList)
+            {
+                MagicProfile tmp = MagicManager.instance.GetMagicProfileFromID(m);
+
+                if (tmp.EffectTypeValue == MagicProfile.MagicEffectType.SummonMonster)
+                {
+                    if (TurnCount > 10)
+                    {
+                        UseMagic = m;
+                        TurnCount -= 10;
+                        return TurnCommand.CastMagic;
+                    }
+                }
+
+                if (tmp.FigureTypeValue == MagicProfile.MagicFigureType.Shot
+                    && tmp.EffectTypeValue == MagicProfile.MagicEffectType.Damege)
+                {
+                    if ((TargetPos - logicalPos).x == (TargetPos - logicalPos).y
+                        || (TargetPos - logicalPos).x == 0
+                        || (TargetPos - logicalPos).y == 0)
+                    {
+                        if (CheckHitLine<Player>(logicalPos, TargetPos, AttackableLayer, true))
+                        {
+                            SetDirection(TargetPos - logicalPos);
+                            SetAttackLine(GetDirection());
+                            UseMagic = m;
+                            return TurnCommand.CastMagic;
+                        }
+                    }
+                }
+            }
+        }
+
+        return TurnCommand.Undef;
     }
 
     protected override void OnDestroy()
@@ -130,5 +177,10 @@ public class Enemy : MovingObject
         }
 
         return Dir;
+    }
+
+    protected override void OnCantMove<T>(T component)
+    {
+
     }
 }

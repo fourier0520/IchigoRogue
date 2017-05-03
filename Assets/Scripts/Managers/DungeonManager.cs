@@ -517,6 +517,6 @@ public class DungeonProfile
             if (random <= r.Rate) return r.MonsterID;
             random -= r.Rate;
         }
-        return Rates[Rates.Count - 1].MonsterID;
+        return "";
     }
 }

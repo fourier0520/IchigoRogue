@@ -9,6 +9,15 @@ public class RogueGeneric
         return (int)System.Math.Max(Mathf.Abs((v1 - v2).x), Mathf.Abs((v1 - v2).y));
     }
 
+    static public Vector2 GetUnitVector(Vector2 v)
+    {
+        if (v.x > 0) v.x = 1;
+        if (v.x < 0) v.x = -1;
+        if (v.y > 0) v.y = 1;
+        if (v.y < 0) v.y = -1;
+        return v;
+    }
+
     static public Vector2 GetVectorFromNum(int n)
     {
         switch (n)
@@ -76,4 +85,21 @@ public class RogueGeneric
         }
         return GetVectorFromNum (n) * length;
     }
+
+    static public int CalculateKeyNo(int key, int cri, out bool crit)
+    {
+        int result = 0;
+        int dice2d6;
+        crit = false;
+
+        do
+        {
+            dice2d6 = Random.Range(1, 7) + Random.Range(1, 7);
+            result += (dice2d6 * (key + 5) / 20);
+            if (dice2d6 >= cri) crit = true;
+        } while (dice2d6 >= cri);
+
+        return result;
+    }
+
 }

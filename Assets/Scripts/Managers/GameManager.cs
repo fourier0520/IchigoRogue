@@ -287,7 +287,8 @@ public class GameManager : MonoBehaviour
                             enemyMoved = true;
                             enemies[i].SetCommand(MovingObject.TurnCommand.Undef);
                         }
-                        if (enemies[i].GetCommand() == MovingObject.TurnCommand.Attack)
+                        if (enemies[i].GetCommand() == MovingObject.TurnCommand.Attack
+                            || enemies[i].GetCommand() == MovingObject.TurnCommand.CastMagic)
                         {
                             enemyAttacked = true;
                         }
@@ -331,6 +332,13 @@ public class GameManager : MonoBehaviour
                     {
                         enemies[i].SetCommand(MovingObject.TurnCommand.Undef);
                         AttackMovingObject(enemies[i]);
+                        enemyAttackCunter++;
+                        return;
+                    }
+                    if (enemies[i].GetCommand() == MovingObject.TurnCommand.CastMagic)
+                    {
+                        enemies[i].SetCommand(MovingObject.TurnCommand.Undef);
+                        CastMagicMovingObject(enemies[i]);
                         enemyAttackCunter++;
                         return;
                     }

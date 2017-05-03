@@ -21,7 +21,10 @@
             "Aim": 0,
             "Dodge": 0,
             "CritOffset": 0,
-            "AdditionalAttackTimes": 0
+            "AdditionalAttackTimes": 0,
+            "MagicPower": 0,
+            "UsableMagicList": [],
+            "UsableMagic": ""
         },
         {
             "Name": "",
@@ -44,7 +47,10 @@
             "Aim": 0,
             "Dodge": 0,
             "CritOffset": 0,
-            "AdditionalAttackTimes": 0
+            "AdditionalAttackTimes": 0,
+            "MagicPower": 0,
+            "UsableMagicList": [],
+            "UsableMagic": ""
         }
     ]
 }

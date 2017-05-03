@@ -10,10 +10,12 @@ public class MagicProfile
     {
         NoEffect, RecoverLife,
         GainFood,
+        SummonMonster,
+        Damege
     }
     public enum MagicFigureType
     {
-        Self, Shot, 
+        Self, Shot, RandomSpace
     }
 
     public string Name = "";
@@ -23,15 +25,9 @@ public class MagicProfile
     public string EffectType = "NoEffect";
     public MagicFigureType FigureTypeValue;
     public string FigureType = "Self";
-    public int UsableTime = 1;
-    public int Stack = 1;
     public int EffectValue = 1;
-    public int GainFoodValue = 500;
     public string Attribute = "";
-    public bool stackable = false;
-
-    public List<string> NGJobIDsList = new List<string>();
-    public string NGJobIDs = "";
+    public string MonsterID = "";
 
     // 武器性能
     public int Attack = 0;
@@ -39,6 +35,7 @@ public class MagicProfile
     public int AttackTimes = 1;
     public int AttackBase = 0;
     public int Aim = 0;
+    public int Range = 5;
 
     //防具性能
     public int Defence = 0;
@@ -55,15 +52,10 @@ public class MagicProfile
             FigureTypeValue = (MagicFigureType)System.Enum.Parse(typeof(MagicFigureType), FigureType);
         }
 
-        foreach (string id in NGJobIDs.Split(',')) NGJobIDsList.Add(id);
-
         foreach (string attri in Attribute.Split(','))
         {
             switch (attri)
             {
-                case "Stackable":
-                    stackable = true;
-                    break;
                 default:
                     break;
             }
@@ -81,11 +73,7 @@ public class MagicProfile
         this.Name = source.Name;
         this.ID = source.ID;
         this.EffectTypeValue = source.EffectTypeValue;
-        this.UsableTime = source.UsableTime;
-        this.Stack = source.Stack;
         this.EffectValue = source.EffectValue;
-        this.GainFoodValue = source.GainFoodValue;
-        this.stackable = source.stackable;
 
         // 武器性能
         this.Attack = source.Attack;
@@ -100,11 +88,7 @@ public class MagicProfile
         if (
                this.ID != source.ID
             || this.EffectTypeValue != source.EffectTypeValue
-            || this.UsableTime != source.UsableTime
             || this.EffectValue != source.EffectValue
-            || this.GainFoodValue != source.GainFoodValue
-            || this.stackable != source.stackable
-
             || this.Attack != source.Attack
             || this.AttackCriticalRate != source.AttackCriticalRate
             || this.AttackTimes != source.AttackTimes
@@ -118,6 +102,8 @@ public class MagicProfile
 }
 
 public class Magic : MonoBehaviour {
+
+    public MagicProfile Profile;
 
     public float moveTime = 0.05f;
     public float inverseMoveTime;
@@ -136,9 +122,10 @@ public class Magic : MonoBehaviour {
 
     public Vector2 logicalPos;
 
+    public bool MagicIsSuccess = true;
+
     public List<GameObject> others;
 
-    public MagicProfile Profile;
 
     // Use this for initialization
     void Start () {
@@ -155,8 +142,9 @@ public class Magic : MonoBehaviour {
         StartCoroutine(SmoothMovement(logicalPos));
     }
 
-    public virtual void CastMagic(Vector2 attackLine, MovingObject owner)
+    public virtual void CastMagic(Vector2 Direction, MovingObject owner)
     {
+        Vector2 attackLine = RogueGeneric.GetUnitVector(Direction) * Profile.Range;
         others = new List<GameObject>();
         MessageWindow.instance.ConOut(owner.Status.Name + "は" + Profile.Name + "を唱えた！\n");
         if (Profile.FigureTypeValue == MagicProfile.MagicFigureType.Shot)
@@ -169,6 +157,47 @@ public class Magic : MonoBehaviour {
             Particle.Play();
             others.Add(owner.gameObject);
         }
+        if (Profile.FigureTypeValue == MagicProfile.MagicFigureType.RandomSpace)
+        {
+            Renderer.enabled = false;
+            Vector2 RandomDest;
+            if (GetRandomSpace(2, out RandomDest))
+            {
+                transform.position = RandomDest;
+                logicalPos = RandomDest;
+                Particle.Play();
+            }
+            else
+            {
+                MagicIsSuccess = false;
+            }
+        }
+    }
+
+    private bool GetRandomSpace(int Range, out Vector2 dest)
+    {
+        int sqrt = (Range * 2 + 1);
+        List<int> num = new List<int>();
+        for (int i = 0; i < sqrt * sqrt; i++)
+        {
+            num.Add(i);
+        }
+
+        RaycastHit2D hit;
+        dest = new Vector2((int)(logicalPos.x - sqrt / 2), (int)(logicalPos.y - sqrt / 2));
+        while (num.Count > 0)
+        {
+            dest = new Vector2((int)(logicalPos.x - sqrt/2), (int)(logicalPos.y - sqrt / 2));
+            int random = (int)Random.Range(0, num.Count);
+            dest.x += num[random] % sqrt;
+            dest.y += num[random] / sqrt;
+            boxCollider.enabled = false;
+            hit = Physics2D.Linecast(dest, dest, ThrowBlockingLayer);
+            boxCollider.enabled = true;
+            if (!hit.transform) return true;
+            num.RemoveAt(random);
+        }
+        return false;
     }
 
     IEnumerator ShotProcess(Vector2 attackLine, MovingObject owner)
@@ -243,22 +272,40 @@ public class Magic : MonoBehaviour {
 
         yield return new WaitForSeconds(0.5f);
 
-        if (Profile.EffectTypeValue == MagicProfile.MagicEffectType.NoEffect)
+        if (Profile.EffectTypeValue == MagicProfile.MagicEffectType.NoEffect
+            || !MagicIsSuccess)
         {
             MessageWindow.instance.ConOut("しかし何も起きなかった…\n", MessageWindow.ConOutType.Add);
         }
 
-        foreach (GameObject other in others){
+        if (Profile.EffectTypeValue == MagicProfile.MagicEffectType.SummonMonster)
+        {
+            Enemy e = EnemyManager.instance.GenerateEnemyFromID(Profile.MonsterID, logicalPos);
+            MessageWindow.instance.ConOut(e.Status.Name + "が召喚された！\n");
+        }
+
+        foreach (GameObject other in others)
+        {
             MovingObject m;
-            if (m  = other.GetComponent<MovingObject>())
+            if (m = other.GetComponent<MovingObject>())
             {
                 if (Profile.EffectTypeValue == MagicProfile.MagicEffectType.RecoverLife)
                 {
                     MessageWindow.instance.ConOut(m.Status.Name + "のHPが" + Profile.EffectValue + "回復した！\n", MessageWindow.ConOutType.Add);
-                    owner.RecoverLife(Profile.EffectValue);
+                    m.RecoverLife(Profile.EffectValue);
+                }
+
+                if (Profile.EffectTypeValue == MagicProfile.MagicEffectType.Damege)
+                {
+                    bool crit = false;
+                    int Damege = CalculateMagicDamege(Profile.Attack, owner.Status.MagicPower, Profile.AttackCriticalRate, out crit);
+                    if (crit) MessageWindow.instance.ConOut("クリティカル！");
+                    MessageWindow.instance.ConOut(m.Status.Name + "に" + Damege + "のダメージ！\n", MessageWindow.ConOutType.Add);
+                    m.GetMagicDamege(Damege);
                 }
             }
         }
+
         while (Particle.isPlaying)
         {
             yield return null;
@@ -279,6 +326,14 @@ public class Magic : MonoBehaviour {
             yield return null;
         }
         isMoving = false;
+    }
+
+    private int CalculateMagicDamege(int atk, int atk_base, int cri, out bool crit)
+    {
+        int result = atk_base;
+        crit = false;
+        result += RogueGeneric.CalculateKeyNo(atk, cri, out crit);
+        return result;
     }
 
 }

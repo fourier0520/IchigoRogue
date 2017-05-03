@@ -30,7 +30,23 @@ public class CharacterStatus
     public int Dodge = 0;
     public int CritOffset = 0;
     public int AdditionalAttackTimes = 0;
-    
+
+    public int MagicPower = 0;
+
+    public List<string> UsableMagicList = new List<string>();
+    public string UsableMagic = "";
+
+    public void ParseStr()
+    {
+        if (UsableMagic != "")
+        {
+            foreach (string attri in UsableMagic.Split(','))
+            {
+                UsableMagicList.Add(attri);
+            }
+        }
+    }
+
     // デフォルトコンストラクタ
     public CharacterStatus()
     {
@@ -46,6 +62,7 @@ public class CharacterStatus
         food_max = source.food_max;
         gold = source.gold;
         exp = source.exp;
+        jobexp = source.jobexp;
         OriginalActionCommandTime = source.OriginalActionCommandTime;
 
         level = source.level;
@@ -62,6 +79,9 @@ public class CharacterStatus
         Aim = source.Aim;
         CritOffset = source.CritOffset;
         AdditionalAttackTimes = source.AdditionalAttackTimes;
+
+        MagicPower = source.MagicPower;
+        UsableMagicList = source.UsableMagicList;
     }
 }
 
@@ -170,6 +190,7 @@ public abstract class MovingObject : MonoBehaviour {
     public ItemNode UseItem;
     public ItemNode PutItem;
 
+    public string UseMagic;
 
 
     protected virtual void Start()
@@ -237,8 +258,10 @@ public abstract class MovingObject : MonoBehaviour {
     public virtual void DestroyWithExp()
     {
         int exp = (int)Mathf.Pow(Status.level, 2) * 10;
-        MessageWindow.instance.ConOut(Status.Name + "をやっつけた！ ");
-        if (Player.instance.gameObject != gameObject) Player.instance.GetExp(exp);
+        if (Player.instance.gameObject != gameObject) {
+            MessageWindow.instance.ConOut(Status.Name + "をやっつけた！ ");
+            Player.instance.GetExp(exp);
+        }
         Destroy(this.gameObject);
     }
 
@@ -615,28 +638,23 @@ public abstract class MovingObject : MonoBehaviour {
         waitAttackingProcess = false;
     }
 
-    public Magic TestMagic;
-
     public virtual IEnumerator CastMagic<T>()
         where T : MovingObject
     {
         waitAttackingProcess = true;
 
-        Magic MagicInstance = Instantiate(TestMagic, logicalPos, new Quaternion());
+        Magic MagicInstance = MagicManager.instance.GenerateMagicFromID(UseMagic, logicalPos);
         yield return null;
         MagicInstance.CastMagic(attackLine, this);
         do
         {
             yield return null;
         } while (MagicInstance.isThrown);
-        if (MagicInstance.others.Count != 0)
+        StartCoroutine(MagicInstance.MagicEffect(this));
+        do
         {
-            StartCoroutine(MagicInstance.MagicEffect(this));
-            do
-            {
-                yield return null;
-            } while (MagicInstance.isWaitAnimation);
-        }
+            yield return null;
+        } while (MagicInstance.isWaitAnimation);
         Destroy(MagicInstance.gameObject);
         waitAttackingProcess = false;
     }
@@ -880,19 +898,15 @@ public abstract class MovingObject : MonoBehaviour {
     private int BattlePhyDamege(int atk, int atk_base, int cri, int def, out bool crit)
     {
         int result = atk_base;
-        int dice2d6;
         crit = false;
-
-        do
-        {
-            dice2d6 = Random.Range(1, 7) + Random.Range(1, 7);
-            result += (dice2d6 * (atk + 5)/20);
-            if(dice2d6 >= cri) crit = true;
-        } while (dice2d6 >= cri);
-
+        result += RogueGeneric.CalculateKeyNo(atk, cri, out crit);
         result -= def;
-
         return result;
+    }
+
+    public void GetMagicDamege(int d)
+    {
+        ReduceLife(d);
     }
 
     protected virtual bool BattleCanHit3Way()

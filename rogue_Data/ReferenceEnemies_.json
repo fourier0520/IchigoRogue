@@ -8,6 +8,7 @@
             "food_max": 10000,
             "gold": 0,
             "exp": 0,
+            "jobexp": 3000,
             "OriginalActionCommandTime": 60,
             "level": 1,
             "life": 5,
@@ -20,7 +21,10 @@
             "Aim": 0,
             "Dodge": 0,
             "CritOffset": 0,
-            "AdditionalAttackTimes": 0
+            "AdditionalAttackTimes": 0,
+            "MagicPower": 0,
+            "UsableMagicList": [],
+            "UsableMagic": ""
         },
         {
             "Name": "",
@@ -30,6 +34,7 @@
             "food_max": 10000,
             "gold": 0,
             "exp": 0,
+            "jobexp": 3000,
             "OriginalActionCommandTime": 60,
             "level": 1,
             "life": 5,
@@ -42,7 +47,10 @@
             "Aim": 0,
             "Dodge": 0,
             "CritOffset": 0,
-            "AdditionalAttackTimes": 0
+            "AdditionalAttackTimes": 0,
+            "MagicPower": 0,
+            "UsableMagicList": [],
+            "UsableMagic": ""
         }
     ]
 }

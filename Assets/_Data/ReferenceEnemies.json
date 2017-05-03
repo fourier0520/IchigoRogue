@@ -189,6 +189,48 @@
     "Dodge": 1,
     "CritOffset": 0,
     "AdditionalAttackTimes": 0
+  },
+  {
+    "Name": "『魔神少女』メアリ",
+    "ID": "Mary",
+    "GfxId": "Mary",
+    "gold": 0,
+    "exp": 0,
+    "OriginalActionCommandTime": 60,
+    "level": 10,
+    "life": 100,
+    "life_max": 100,
+    "NwAttack": 15,
+    "NwAttackTimes": 1,
+    "NwAttackCriticalRate": 13,
+    "AttackBase": 10,
+    "Defence": 3,
+    "Dodge": 0,
+    "MagicPower" : 10,
+    "CritOffset": 0,
+    "AdditionalAttackTimes": 0,
+    "UsableMagic" : "Force,SummonOtherbeast"
+  },
+  {
+    "Name": "アザービースト",
+    "ID": "Otherbeast",
+    "GfxId": "Otherbeast",
+    "gold": 0,
+    "exp": 0,
+    "OriginalActionCommandTime": 60,
+    "level": 6,
+    "life": 40,
+    "life_max": 40,
+    "NwAttack": 20,
+    "NwAttackTimes": 1,
+    "NwAttackCriticalRate": 13,
+    "AttackBase": 8,
+    "Defence": 1,
+    "Dodge": 0,
+    "MagicPower" : 10,
+    "CritOffset": 0,
+    "AdditionalAttackTimes": 0,
+    "UsableMagic" : ""
   }
 ]
 }

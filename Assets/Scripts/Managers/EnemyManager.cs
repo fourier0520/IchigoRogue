@@ -30,6 +30,7 @@ public class EnemyManager : MonoBehaviour {
         string json = SaveManager.LoadJson("/_Data", "/ReferenceEnemies.json");
         JsonUtility.FromJsonOverwrite(json, Data);
         ReferenceEnemies = Data.ReferenceEnemies;
+        foreach (CharacterStatus i in ReferenceEnemies) i.ParseStr();
 
         this.gameObject.SetActive(false);
     }
