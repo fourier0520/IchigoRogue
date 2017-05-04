@@ -25,8 +25,8 @@ public class ItemManager : MonoBehaviour {
             instance = this;
         }
         Data.ItemProfileList = ItemProfileList;
-        NKTextMan.saveText("/ItemProfiles_.json", JsonUtility.ToJson(Data, true));
-        string json = SaveManager.LoadJson("/_Data", "/ItemProfiles.json");
+        //NKTextMan.saveText("/ItemProfiles_.json", JsonUtility.ToJson(Data, true));
+        string json = SaveManager.LoadFixedJson("_Data/ItemProfiles");
         JsonUtility.FromJsonOverwrite(json, Data);
         ItemProfileList = Data.ItemProfileList;
         foreach (ItemProfile i in ItemProfileList) i.ParseStr();

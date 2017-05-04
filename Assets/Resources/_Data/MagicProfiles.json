@@ -61,7 +61,7 @@
             "ID": "SummonMary",
             "GfxID": "SummonMonster",
             "EffectType": "SummonMonster",
-            "FigureType": "Shot",
+            "FigureType": "RandomSpace",
             "EffectValue": 15,
             "Attribute": "",
             "MonsterID": "Mary",

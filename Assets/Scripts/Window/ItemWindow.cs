@@ -130,8 +130,10 @@ public class ItemWindow : MenuWindow {
                 }
                 if (player.CheckEquipDest(player.Inventory.Items[i]) == MovingObject.EquipDest.RightHand)
                 {
-                    if (player.Inventory.Items[i].GetProfile().EqTypeValue == ItemProfile.EquipType.OneHand) ItemWindowText.text += "(右手)";
-                    else ItemWindowText.text += "(両手)";
+                    if (player.Inventory.Items[i].GetProfile().EqTypeValue == ItemProfile.EquipType.TwoHand)
+                        ItemWindowText.text += "(両手)";
+                    else
+                        ItemWindowText.text += "(右手)";
                 }
                 if (player.CheckEquipDest(player.Inventory.Items[i]) == MovingObject.EquipDest.LeftHand)
                 {

@@ -26,8 +26,8 @@ public class EnemyManager : MonoBehaviour {
         }
 
         Data.ReferenceEnemies = ReferenceEnemies;
-        NKTextMan.saveText("/ReferenceEnemies_.json", JsonUtility.ToJson(Data, true));
-        string json = SaveManager.LoadJson("/_Data", "/ReferenceEnemies.json");
+        //NKTextMan.saveText("/ReferenceEnemies_.json", JsonUtility.ToJson(Data, true));
+        string json = SaveManager.LoadFixedJson("_Data/ReferenceEnemies");
         JsonUtility.FromJsonOverwrite(json, Data);
         ReferenceEnemies = Data.ReferenceEnemies;
         foreach (CharacterStatus i in ReferenceEnemies) i.ParseStr();

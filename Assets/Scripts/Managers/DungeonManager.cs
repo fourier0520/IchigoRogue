@@ -165,7 +165,7 @@ public class DungeonManager : MonoBehaviour
                     instance.transform.SetParent(boardHolder);
                 }
 
-                if (GetArrayFromList(Walls, x, y, MapXSize) == 2)
+                if (GetArrayFromList(Walls, x, y, MapXSize) == 2 && level != Profile.LastLevel)
                 {
                     toInstantiate = Stair[0];
 
@@ -275,10 +275,6 @@ public class DungeonManager : MonoBehaviour
         GameObject playerinstance;
         if (Player.instance == null)
         {
-            if (SelectCharacter.instance.Player)
-            {
-                player = SelectCharacter.instance.Player;
-            }
             playerinstance = Instantiate(player, player.transform.position, player.transform.rotation);
             playerinstance.GetComponent<Player>().LoadObjectData();
         }
@@ -296,13 +292,18 @@ public class DungeonManager : MonoBehaviour
         LoadEnemyData();
         LoadItemData();
         
-        string DungeonProfileJson = SaveManager.LoadJson("/_Data/Dungeon", "/" + MapID + ".json");
+        string DungeonProfileJson = SaveManager.LoadFixedJson("_Data/Dungeon/" + MapID);
         JsonUtility.FromJsonOverwrite(DungeonProfileJson, Profile);
         //NKTextMan.saveText("/DungeonProfile.json", JsonUtility.ToJson(Profile, true));
 
         if (GenerateFirstTime)
         {
-            GenerateItemAtRandom(2, 5);
+            InitialiseList();
+            GenerateItemAtRandom(3, 7);
+            InitialiseList();
+            GenerateEnemyAtRandom("", 2, 4);
+            InitialiseList();
+            if (level == Profile.LastLevel) EnemyManager.instance.GenerateEnemyFromID(Profile.BossID, RandomPosition());
         }
 
         SystemManager.HoldSystemGameData();
@@ -465,6 +466,8 @@ public class DungeonProfile
         }
     }
 
+    public string BossID = "Mary";
+    public int LastLevel = 15;
     public List<MonsterTable> Moster = new List<MonsterTable>();
     public List<ItemTable> Item = new List<ItemTable>();
 

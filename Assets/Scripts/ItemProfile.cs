@@ -136,6 +136,7 @@ public class ItemProfile
     {
         NoEffect, RecoverLife,
         GainFood,
+        CastMagic,
     }
     public enum EquipType
     {
@@ -160,6 +161,8 @@ public class ItemProfile
 
     public List<string> NGJobIDsList = new List<string>();
     public string NGJobIDs = "";
+
+    public string MagicID = "";
 
     // 武器性能
     public int Attack = 0;

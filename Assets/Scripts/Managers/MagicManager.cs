@@ -26,8 +26,8 @@ public class MagicManager : MonoBehaviour {
             instance = this;
         }
         Data.MagicProfileList = MagicProfileList;
-        NKTextMan.saveText("/MagicProfiles_.json", JsonUtility.ToJson(Data, true));
-        string json = SaveManager.LoadJson("/_Data", "/MagicProfiles.json");
+        //NKTextMan.saveText("/MagicProfiles_.json", JsonUtility.ToJson(Data, true));
+        string json = SaveManager.LoadFixedJson("_Data/MagicProfiles");
         JsonUtility.FromJsonOverwrite(json, Data);
         MagicProfileList = Data.MagicProfileList;
         foreach (MagicProfile i in MagicProfileList) i.ParseStr();

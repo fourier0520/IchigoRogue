@@ -148,6 +148,27 @@
     "Dodge": 0
   },
   {
+    "Name": "ガイスター",
+    "ID": "Geister",
+    "GfxID": "TwoHandSword",
+    "UseEffectType": "NoEffect",
+    "ThrowEffectType": "NoEffect",
+    "UsableTime": 0,
+    "Stack": 1,
+    "EffectValue": 0,
+    "GainFoodValue": 0,
+    "Attribute": "",
+    "Attack": 80,
+    "AttackCriticalRate": 10,
+    "AttackTimes": 1,
+    "AttackBase": 0,
+    "Aim": 0,
+    "EqType": "TwoHand",
+    "NGJobIDs": "Fencer,Grappler",
+    "Defence": 0,
+    "Dodge": 0
+  },
+  {
     "Name": "ソフトレザー",
     "ID": "SoftLeather",
     "GfxID": "SoftLeather",
@@ -230,6 +251,28 @@
     "NGJobIDs": "Fighter,Fencer",
     "Defence": 4,
     "Dodge": 2
+  },
+  {
+    "Name": "サモン・メアリの巻物",
+    "ID": "SummonMaryScroll",
+    "GfxID": "Scroll",
+    "UseEffectType": "CastMagic",
+    "ThrowEffectType": "NoEffect",
+    "UsableTime": 1,
+    "Stack": 1,
+    "EffectValue": 0,
+    "GainFoodValue": 0,
+    "Attribute": "",
+    "Attack": 0,
+    "AttackCriticalRate": 0,
+    "AttackTimes": 0,
+    "AttackBase": 0,
+    "Aim": 0,
+    "EqType": "",
+    "NGJobIDs": "",
+    "MagicID" : "SummonMary",
+    "Defence": 0,
+    "Dodge": 0
   }
 ]
 }

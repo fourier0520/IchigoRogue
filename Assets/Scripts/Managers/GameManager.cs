@@ -224,8 +224,6 @@ public class GameManager : MonoBehaviour
             {
                 player.SetCommand(MovingObject.TurnCommand.Undef);
                 Item tmp = Item.GenerateItemFromNode(player.PutItem, player.logicalPos);
-                print(player.PutItem.stack);
-                print(tmp.Node.stack);
                 player.Inventory.RemoveItem(player.PutItem, player.PutItem.stack);
                 phase = GamePhase.VerifyThrownItemPos;
             }
@@ -601,7 +599,7 @@ public class GameManager : MonoBehaviour
         playerAttacking = true;
 
         Item tmp = Item.GenerateItemFromNode(player.UseItem, player.logicalPos);
-        tmp.gameObject.SetActive(false);
+        tmp.gameObject.GetComponent<SpriteRenderer>().enabled = false;
         player.Inventory.RemoveItem(player.UseItem, 1);
 
         StartCoroutine(tmp.UseEffect(player));

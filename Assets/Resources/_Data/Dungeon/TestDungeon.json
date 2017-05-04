@@ -1,7 +1,9 @@
 {
+    "BossID": "Mary",
+    "LastLevel": "15",
     "Moster": [
         {
-            "StartLevel": 2,
+            "StartLevel": 1,
             "EndLevel": 2,
             "Rates": [
                 {
@@ -147,6 +149,10 @@
                 {
                     "ItemID": "DragonSlayer",
                     "Rate": 50
+                },
+                {
+                    "ItemID": "Geister",
+                    "Rate": 10
                 },
                 {
                     "ItemID": "SoftLeather",

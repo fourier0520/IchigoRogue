@@ -190,6 +190,17 @@ public class Item : MonoBehaviour {
             Node.UsableTime--;
         }
 
+        if (Profile.UseEffectTypeValue == ItemProfile.ItemType.CastMagic)
+        {
+            owner.UseMagic = Profile.MagicID;
+            StartCoroutine(owner.CastMagic<MovingObject>());
+            do
+            {
+                yield return null;
+            } while (owner.waitAttackingProcess);
+            Node.UsableTime--;
+        }
+
         if (owner.GetComponent<Player>()) owner.GetComponent<Player>().GainFood(Profile.GainFoodValue);
 
         yield return new WaitForSeconds(0.5f);

@@ -35,6 +35,7 @@ public class CharacterStatus
 
     public List<string> UsableMagicList = new List<string>();
     public string UsableMagic = "";
+    public string Drop = "";
 
     public void ParseStr()
     {
@@ -82,6 +83,7 @@ public class CharacterStatus
 
         MagicPower = source.MagicPower;
         UsableMagicList = source.UsableMagicList;
+        Drop = source.Drop;
     }
 }
 
@@ -261,6 +263,10 @@ public abstract class MovingObject : MonoBehaviour {
         if (Player.instance.gameObject != gameObject) {
             MessageWindow.instance.ConOut(Status.Name + "をやっつけた！ ");
             Player.instance.GetExp(exp);
+        }
+        if(Status.Drop != "")
+        {
+            ItemManager.instance.GenerateItemFromNode(new ItemNode(Status.Drop, 1, 1), logicalPos);
         }
         Destroy(this.gameObject);
     }
@@ -580,7 +586,7 @@ public abstract class MovingObject : MonoBehaviour {
                         others.Add(other);
                         if (BattleHit(Aim[0], other.Status.Dodge))
                         {
-                            damege.Add(BattlePhyDamege(Attack[i], AttackBase[i], CriticalRate[i], other.Status.Defence, out tmp));
+                            damege.Add(BattlePhyDamege(Attack[j], AttackBase[j], CriticalRate[j], other.Status.Defence, out tmp));
                             crit.Add(tmp);
                         }
                         else

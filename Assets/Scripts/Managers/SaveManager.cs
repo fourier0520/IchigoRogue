@@ -28,18 +28,39 @@ public class SaveManager : MonoBehaviour {
             this.json = j;
         }
     }
-    
+
     static private List<JsonBuffer> DataBuffer = new List<JsonBuffer>();
+    static private List<JsonBuffer> FixedDataBuffer = new List<JsonBuffer>();
+
+    static public string LoadFixedJson(string path)
+    {
+        foreach (JsonBuffer b in FixedDataBuffer)
+        {
+            if (b.path == path) return b.json;
+        }
+        TextAsset jsonAsset = Resources.Load(path, typeof(TextAsset)) as TextAsset;
+        string json = jsonAsset.ToString();
+        FixedDataBuffer.Add(new JsonBuffer(path, "", json));
+
+        return json;
+    }
 
     static public string LoadJson(string path, string file)
     {
-        foreach (JsonBuffer b in DataBuffer)
+        string json = "";
+        if (!TitleDataLoad.instance.InisialData)
         {
-            if (b.path == path && b.file == file) return b.json;
-        }
+            foreach (JsonBuffer b in DataBuffer)
+            {
+                if (b.path == path && b.file == file) return b.json;
+            }
+#if true
+            json = PlayerPrefs.GetString(path + file, "");
+#else
         string json = NKTextMan.readText(path + file);
+#endif
+        }
         DataBuffer.Add(new JsonBuffer(path, file, json));
-
         return json;
     }
 
@@ -60,8 +81,12 @@ public class SaveManager : MonoBehaviour {
     {
         foreach (JsonBuffer b in DataBuffer)
         {
+#if true
+            PlayerPrefs.SetString(b.path + b.file, b.json);
+#else
             DirectoryUtils.SafeCreateDirectory(b.path);
             NKTextMan.saveText(b.path + b.file, b.json);
+#endif
         }
     }
 }

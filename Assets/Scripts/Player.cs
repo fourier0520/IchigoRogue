@@ -282,6 +282,7 @@ public class Player : MovingObject
             }
         }
 
+        /*
         if (GetCommand() == TurnCommand.Undef)
         {
             isAttack = Input.GetKey("f");
@@ -291,7 +292,7 @@ public class Player : MovingObject
                 SetAttackLine(GetDirection() * 5);
                 SetCommand(TurnCommand.CastMagic);
             }
-        }
+        }*/
 
         //プレイヤーの順番終了
         if (GetCommand() != TurnCommand.Undef)
@@ -425,6 +426,11 @@ public class Player : MovingObject
         // Status
         public CharacterStatus Status;
 
+        // Equip
+        public int RightHand = -1;
+        public int LeftHand = -1;
+        public int Armor = -1;
+
         // Buffs
         public List<CharacterBuff> Buffs = new List<CharacterBuff>();
 
@@ -457,6 +463,16 @@ public class Player : MovingObject
         save.logicalPos = logicalPos;
         save.CurrentMapLevel = GameManager.instance.boardScript.level;
 
+        // 装備はインスタンスではなくポインタに定義し直す(所持品からなくなったとき不都合が出るので)
+        int i = 0;
+        foreach (ItemNode n in Inventory.Items)
+        {
+            if (Equip.RightHand == n) save.RightHand = i;
+            if (Equip.LeftHand == n) save.LeftHand = i;
+            if (Equip.Armor == n) save.Armor = i;
+            i++;
+        }
+
         SaveManager.HoldJson("/_Save/JsonData" , "/player.json", JsonUtility.ToJson(save, true));
         return true;
     }
@@ -467,30 +483,20 @@ public class Player : MovingObject
         string json = SaveManager.LoadJson("/_Save/JsonData" ,"/player.json");
         if (json == "") return false;
         save = JsonUtility.FromJson<SaveData>(json);
-        
         Status = save.Status;
         Buffs = save.Buffs;
         Inventory = save.Inventory;
-#if false
-        //Jobは増えたり減ったりする可能性あり
-        List<JobData> EmptyJobList = JobManager.instance.GetEmptyJobList();
-        for(int i = 0;  i <EmptyJobList.Count; i++)
-        {
-            foreach(JobData j2 in save.JobList)
-            {
-                if (EmptyJobList[i].ID == j2.ID) EmptyJobList[i] = j2;
-            }
-        }
-        JobList = EmptyJobList;
-#else
         JobList = save.JobList;
-#endif
         CurrentJob = save.CurrentJob;
-
         ActiveSkillID = save.ActiveSkillID;
         CurrentMapID = save.CurrentMapID;
         logicalPos = save.logicalPos;
         CurrentMapLevel = save.CurrentMapLevel;
+
+        // 装備はインスタンスではなくポインタに定義し直す(所持品からなくなったとき不都合が出るので)
+        if (save.RightHand >= 0) Equip.RightHand = Inventory.Items[save.RightHand];
+        if (save.LeftHand >= 0) Equip.LeftHand = Inventory.Items[save.LeftHand];
+        if (save.Armor >= 0) Equip.Armor = Inventory.Items[save.Armor];
 
         return true;
     }

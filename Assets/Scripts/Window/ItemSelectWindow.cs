@@ -40,7 +40,8 @@ public class ItemSelectWindow : MenuWindow
             if (player.Inventory.Items[ItemWindowIndex].GetProfile().EqTypeValue == ItemProfile.EquipType.OneHandDual)
             {
                 ItemSelectCommands.Add("装備(右手)");
-                ItemSelectCommands.Add("装備(左手)");
+                if (player.Equip.RightHand != null)
+                    ItemSelectCommands.Add("装備(左手)");
             }
             if (player.Inventory.Items[ItemWindowIndex].GetProfile().EqTypeValue == ItemProfile.EquipType.TwoHand)
             {

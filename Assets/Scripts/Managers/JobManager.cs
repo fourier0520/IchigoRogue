@@ -133,9 +133,9 @@ public class JobManager : MonoBehaviour {
         }
         this.gameObject.SetActive(false);
 
-        NKTextMan.saveText("/Jobs_.json", JsonUtility.ToJson(instance, true));
+        //NKTextMan.saveText("/Jobs_.json", JsonUtility.ToJson(instance, true));
 
-        string json = SaveManager.LoadJson("/_Data", "/Jobs.json");
+        string json = SaveManager.LoadFixedJson("_Data/Jobs");
         JsonUtility.FromJsonOverwrite(json, instance);
         foreach (SkillData s in instance.ReferenceSkillList)
         {
