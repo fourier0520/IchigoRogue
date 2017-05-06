@@ -10,15 +10,11 @@ public class Enemy : MovingObject
 
     int TurnCount = 0;
 
-    //MovingObjectのStartメソッドを継承
     protected override void Start()
     {
-        //GameManagerスクリプトのEnemyの配列に格納
         GameManager.instance.AddEnemyToList(this);
-
         Count++;
 
-        //MovingObjectのStartメソッド呼び出し
         base.Start();
     }
 
@@ -133,50 +129,6 @@ public class Enemy : MovingObject
     public override void DestroyWithExp()
     {
         base.DestroyWithExp();
-    }
-
-    private Vector2 RandomWalk()
-    {
-        Vector2 Dir = new Vector2();
-        if (Random.Range(-1000, 1000) > 0) //x walk
-        {
-            if (Random.Range(-1000, 1000) > 0) Dir.x = 1;
-            else Dir.x = -1;
-        }
-        else
-        {
-            if (Random.Range(-1000, 1000) > 0) Dir.y = 1;
-            else Dir.y = -1;
-        }
-        return Dir;
-    }
-
-    private Vector2 ApproachWalk(Vector2 dest)
-    {
-        Vector2 Dir = new Vector2();
-        int min = RogueGeneric.Distance(logicalPos, dest);
-        for (int i = 1; i <= 9; i++)
-        {
-            Vector2 tmp = RogueGeneric.GetVectorFromNum(i);
-            if (tmp != new Vector2() && AttemptMove<MovingObject>((int)tmp.x, (int)tmp.y))
-            {
-                int distance = RogueGeneric.Distance(logicalPos + tmp, dest);
-                if (distance < min)
-                {
-                    min = distance;
-                    Dir = tmp;
-                }
-                else if(distance == min)
-                {
-                    if ((logicalPos + tmp - dest).sqrMagnitude < (logicalPos + Dir - dest).sqrMagnitude)
-                    {
-                        Dir = tmp;
-                    }
-                }
-            }
-        }
-
-        return Dir;
     }
 
     protected override void OnCantMove<T>(T component)

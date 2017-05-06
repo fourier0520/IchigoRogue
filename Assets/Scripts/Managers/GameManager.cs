@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public DungeonManager boardScript;
 
     private List<Enemy> enemies; //Enemyクラスの配列
+    private List<NPC> NPCs = new List<NPC>(); //Enemyクラスの配列
     private List<MovingObject> movingObjects; //movingObjectsクラスの配列
     public List<Item> items;
 
@@ -101,7 +102,7 @@ public class GameManager : MonoBehaviour
     void MoveMap()
     {
         isProhibitAnimation = true;
-        player.HoldPlayerData();
+        player.HoldCharacterData();
         boardScript.HoldCurrentMapData();
         player.gameObject.transform.position = new Vector2();
         player.logicalPos = new Vector2();
@@ -149,6 +150,10 @@ public class GameManager : MonoBehaviour
             phase = GamePhase.CheckPlayerAct;
             // 単位時間の経過
             player.remainingActionCommandTime += 60;
+            for (int i = 0; i < NPCs.Count; i++)
+            {
+                NPCs[i].remainingActionCommandTime += 60;
+            }
             for (int i = 0; i < enemies.Count; i++)
             {
                 enemies[i].remainingActionCommandTime += 60;
@@ -292,6 +297,25 @@ public class GameManager : MonoBehaviour
                         }
                     }
                 }
+                for (int i = 0; i < NPCs.Count; i++)
+                {
+                    if (NPCs[i].CanAction())
+                    {
+                        NPCs[i].remainingActionCommandTime -= NPCs[i].GetActionCommandTime();
+                        NPCs[i].CommandNPC();
+                        if (NPCs[i].GetCommand() == MovingObject.TurnCommand.Move)
+                        {
+                            NPCs[i].Move();
+                            enemyMoved = true;
+                            NPCs[i].SetCommand(MovingObject.TurnCommand.Undef);
+                        }
+                        if (NPCs[i].GetCommand() == MovingObject.TurnCommand.Attack
+                            || NPCs[i].GetCommand() == MovingObject.TurnCommand.CastMagic)
+                        {
+                            enemyAttacked = true;
+                        }
+                    }
+                }
                 phase = GamePhase.EnemyMove;
             }
             else
@@ -302,8 +326,8 @@ public class GameManager : MonoBehaviour
 
         if (phase == GamePhase.EnemyMove)
         {
-            phase = GamePhase.EnemyAttack;
             enemyAttackCunter = 0;
+            phase = GamePhase.EnemyAttack;
             if (enemyMoved)
             {
                 TurnEnemies();
@@ -319,6 +343,30 @@ public class GameManager : MonoBehaviour
                 {
                     return;
                 }
+                enemyAttackCunter = 0;
+                for (int i = enemyAttackCunter; i < NPCs.Count; i++)
+                {
+                    enemyAttackCunter = i;
+                    if (NPCs[i].isMoving)
+                    {
+                        return;
+                    }
+                    if (NPCs[i].GetCommand() == MovingObject.TurnCommand.Attack)
+                    {
+                        NPCs[i].SetCommand(MovingObject.TurnCommand.Undef);
+                        AttackMovingObject(NPCs[i]);
+                        enemyAttackCunter++;
+                        return;
+                    }
+                    if (NPCs[i].GetCommand() == MovingObject.TurnCommand.CastMagic)
+                    {
+                        NPCs[i].SetCommand(MovingObject.TurnCommand.Undef);
+                        CastMagicMovingObject(NPCs[i]);
+                        enemyAttackCunter++;
+                        return;
+                    }
+                }
+                enemyAttackCunter = 0;
                 for (int i = enemyAttackCunter; i < enemies.Count; i++)
                 {
                     enemyAttackCunter = i;
@@ -617,6 +665,36 @@ public class GameManager : MonoBehaviour
         playerAttacking = false;
     }
 
+    //--------------------------------------------------------
+    //
+    // NPC List Function
+    //
+    //--------------------------------------------------------
+    public List<NPC> GetNPCList()
+    {
+        return NPCs;
+    }
+
+    public void AddNPCToList(NPC script)
+    {
+        NPCs.Add(script);
+    }
+
+    public void RemoveNPCToList(NPC script)
+    {
+        NPCs.Remove(script);
+    }
+
+    //--------------------------------------------------------
+    //
+    // Enemy List Function
+    //
+    //--------------------------------------------------------
+    public List<Enemy> GetEnemyList()
+    {
+        return enemies;
+    }
+
     public void AddEnemyToList(Enemy script)
     {
         enemies.Add(script);
@@ -627,24 +705,14 @@ public class GameManager : MonoBehaviour
         enemies.Remove(script);
     }
 
-    public List<Enemy> GetEnemyList()
-    {
-        return enemies;
-    }
-
+    //--------------------------------------------------------
+    //
+    // Item List Function
+    //
+    //--------------------------------------------------------
     public List<Item> GetItemList()
     {
         return items;
-    }
-
-    public void AddMovingObjectToList(MovingObject script)
-    {
-        movingObjects.Add(script);
-    }
-
-    public void RemoveMovingObjectToList(MovingObject script)
-    {
-        movingObjects.Remove(script);
     }
 
     public void AddItemToList(Item script)
@@ -655,18 +723,6 @@ public class GameManager : MonoBehaviour
     public void RemoveItemToList(Item script)
     {
         items.Remove(script);
-    }
-
-    public MovingObject ExitstMovingObject(Vector2 dest)
-    {
-        for (int i = 0; i < movingObjects.Count; i++)
-        {
-            if (movingObjects[i].logicalPos == dest)
-            {
-                return movingObjects[i];
-            }
-        }
-        return null;
     }
 
     public Item ExitstItem(Vector2 dest)
@@ -681,15 +737,6 @@ public class GameManager : MonoBehaviour
         return null;
     }
 
-    public bool IsOnStair(MovingObject p)
-    {
-        if (boardScript.Stairs[0].GetComponent<Wall>().data.pos == p.logicalPos)
-        {
-            return true;
-        }
-        return false;
-    }
-
     public bool CanPutItem(MovingObject p)
     {
         foreach (Item i in items)
@@ -700,6 +747,42 @@ public class GameManager : MonoBehaviour
             }
         }
         return true;
+    }
+
+    //--------------------------------------------------------
+    //
+    // MovingObject List Function
+    //
+    //--------------------------------------------------------
+    public void AddMovingObjectToList(MovingObject script)
+    {
+        movingObjects.Add(script);
+    }
+
+    public void RemoveMovingObjectToList(MovingObject script)
+    {
+        movingObjects.Remove(script);
+    }
+
+    public MovingObject ExitstMovingObject(Vector2 dest)
+    {
+        for (int i = 0; i < movingObjects.Count; i++)
+        {
+            if (movingObjects[i].logicalPos == dest)
+            {
+                return movingObjects[i];
+            }
+        }
+        return null;
+    }
+
+    public bool IsOnStair(MovingObject p)
+    {
+        if (boardScript.Stairs[0].GetComponent<Wall>().data.pos == p.logicalPos)
+        {
+            return true;
+        }
+        return false;
     }
 
 }

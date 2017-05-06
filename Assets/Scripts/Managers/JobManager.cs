@@ -164,7 +164,7 @@ public class JobManager : MonoBehaviour {
         return tmp;
     }
 
-    public List<SkillData> GetUsableSkill(Player player)
+    public List<SkillData> GetUsableSkill(Character player)
     {
         List<JobData> Jobs = player.JobList;
         List<SkillData> tmp = new List<SkillData>();

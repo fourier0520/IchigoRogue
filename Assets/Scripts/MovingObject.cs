@@ -490,6 +490,10 @@ public abstract class MovingObject : MonoBehaviour {
                 {
                     return other;
                 }
+                else
+                {
+                    return null;
+                }
             }
             return null;
         }
@@ -509,6 +513,10 @@ public abstract class MovingObject : MonoBehaviour {
                     if (other)
                     {
                         return other;
+                    }
+                    else
+                    {
+                        return null;
                     }
                 }
             }
@@ -555,6 +563,8 @@ public abstract class MovingObject : MonoBehaviour {
             Attack[1] = LeftHand.Attack;
             AttackTimes[1] = LeftHand.AttackTimes;
             CriticalRate[1] = LeftHand.AttackCriticalRate;
+            AttackBase[1] = Status.AttackBase + LeftHand.AttackBase;
+            Aim[1] = Status.Aim + LeftHand.Aim;
         }
 
         //近接ステータスの再計算
@@ -919,4 +929,54 @@ public abstract class MovingObject : MonoBehaviour {
     {
         return false;
     }
+
+    //-----------------------------------------------------------------------//
+    //
+    // NPCのAI用
+    //
+    //-----------------------------------------------------------------------//
+    public Vector2 RandomWalk()
+    {
+        Vector2 Dir = new Vector2();
+        if (UnityEngine.Random.Range(-1000, 1000) > 0) //x walk
+        {
+            if (UnityEngine.Random.Range(-1000, 1000) > 0) Dir.x = 1;
+            else Dir.x = -1;
+        }
+        else
+        {
+            if (UnityEngine.Random.Range(-1000, 1000) > 0) Dir.y = 1;
+            else Dir.y = -1;
+        }
+        return Dir;
+    }
+
+    public Vector2 ApproachWalk(Vector2 dest)
+    {
+        Vector2 Dir = new Vector2();
+        int min = RogueGeneric.Distance(logicalPos, dest);
+        for (int i = 1; i <= 9; i++)
+        {
+            Vector2 tmp = RogueGeneric.GetVectorFromNum(i);
+            if (tmp != new Vector2() && AttemptMove<MovingObject>((int)tmp.x, (int)tmp.y))
+            {
+                int distance = RogueGeneric.Distance(logicalPos + tmp, dest);
+                if (distance < min)
+                {
+                    min = distance;
+                    Dir = tmp;
+                }
+                else if (distance == min)
+                {
+                    if ((logicalPos + tmp - dest).sqrMagnitude < (logicalPos + Dir - dest).sqrMagnitude)
+                    {
+                        Dir = tmp;
+                    }
+                }
+            }
+        }
+
+        return Dir;
+    }
+
 }

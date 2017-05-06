@@ -11,7 +11,7 @@
                     "Rate": 1
                 },
                 {
-                    "MonsterID": "bat",
+                    "MonsterID": "Bat",
                     "Rate": 1
                 }
             ]
@@ -21,7 +21,7 @@
             "EndLevel": 4,
             "Rates": [
                 {
-                    "MonsterID": "bat",
+                    "MonsterID": "Bat",
                     "Rate": 1
                 },
                 {

@@ -106,8 +106,9 @@ public class MainWindow : MenuWindow
             if (MainSelectCommands[MainWindowIndex] == SaveMenuString)
             {
                 //セーブ実行前に現在マップのデータをHOLDしておく
-                Player.instance.HoldPlayerData();
+                Player.instance.HoldCharacterData();
                 GameManager.instance.boardScript.HoldCurrentMapData();
+                SystemManager.HoldSystemGameData();
                 SaveManager.SaveAllJson();
                 MessageWindow.instance.ConOut("セーブしました！");
             }

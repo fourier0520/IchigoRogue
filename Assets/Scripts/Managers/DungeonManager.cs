@@ -41,6 +41,8 @@ public class DungeonManager : MonoBehaviour
     public GameObject[] enemyTiles;                             //Array of ichigo tile prefabs.
     public GameObject[] enemyTilesRare;                         //Array of ichigo tile prefabs.
 
+    public GameObject DungeonSetting;
+
     public bool kakusiflag = false;
 
     // Playerプレハブ
@@ -256,12 +258,34 @@ public class DungeonManager : MonoBehaviour
         {
             MapID = reqMapID;
             level = reqLevel;
-            MapXSize = fieldDataTmp.GetLength(1);
+
+            Layer2D map = DungeonSetting.GetComponent<DgGenerator>().Generate();
+
+            MapXSize = map.Width;
             Walls = new List<int>();
             Walls.Clear();
-            foreach (int s in fieldDataTmp)
+            int floorCnt = 0;
+            for (int i= 0; i < map.Height; i++)
             {
-                Walls.Add(s);
+                for (int j = 0; j < map.Width; j++)
+                {
+                    if (map.Get(i, j) == 0) floorCnt++;
+                    Walls.Add(map.Get(i,j));
+                }
+            }
+
+            floorCnt = Random.Range(0, floorCnt);
+            for (int i = 0; i < Walls.Count; i++)
+            {
+                if (Walls[i] == 0)
+                {
+                    if (floorCnt == 0)
+                    {
+                        Walls[i] = 2;
+                        break;
+                    }
+                    floorCnt--;
+                }
             }
             IsAlreadyGenerated = true;
             GenerateFirstTime = true;
@@ -276,7 +300,7 @@ public class DungeonManager : MonoBehaviour
         if (Player.instance == null)
         {
             playerinstance = Instantiate(player, player.transform.position, player.transform.rotation);
-            playerinstance.GetComponent<Player>().LoadObjectData();
+            playerinstance.GetComponent<Player>().LoadCharacterData();
         }
         else
         {
@@ -285,6 +309,7 @@ public class DungeonManager : MonoBehaviour
         if (playerinstance.GetComponent<Player>().logicalPos == new Vector2())
         {
             playerinstance.GetComponent<Player>().logicalPos = RandomPosition();
+            print(playerinstance.GetComponent<Player>().logicalPos);
         }
         playerinstance.transform.position = playerinstance.GetComponent<Player>().logicalPos;
 
@@ -335,6 +360,8 @@ public class DungeonManager : MonoBehaviour
         level = save.level;
         IsAlreadyGenerated = save.IsAlreadyGenerated;
         Walls = save.Walls;
+        MapXSize = save.MapXSize;
+        print(json);
         return true;
     }
 
@@ -488,10 +515,10 @@ public class DungeonProfile
             }
         }
 
-        int random = Random.Range(1, TotalRate + 1);
+        int random = Random.Range(0, TotalRate);
         foreach (ItemTable.ItemRate r in Rates)
         {
-            if (random <= r.Rate) return r.ItemID;
+            if (random < r.Rate) return r.ItemID;
             random -= r.Rate;
         }
         return Rates[Rates.Count - 1].ItemID;
@@ -514,10 +541,10 @@ public class DungeonProfile
             }
         }
 
-        int random = Random.Range(1, TotalRate + 1);
+        int random = Random.Range(0, TotalRate);
         foreach (MonsterTable.MonsterRate r in Rates)
         {
-            if (random <= r.Rate) return r.MonsterID;
+            if (random < r.Rate) return r.MonsterID;
             random -= r.Rate;
         }
         return "";

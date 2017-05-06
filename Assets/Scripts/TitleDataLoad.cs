@@ -9,7 +9,7 @@ public class TitleDataLoad : MonoBehaviour {
     static public TitleDataLoad instance = null;
     private bool titleIsActive = true;
     private int Select = 0;
-    public bool InisialData = false;
+    public bool LoadData = false;
 
     public Image Image1;
     public Image Image2;
@@ -67,7 +67,7 @@ public class TitleDataLoad : MonoBehaviour {
         if (Select == 1) Image2.gameObject.SetActive(true);
         if (Input.GetKey("z"))
         {
-            if (Select == 1) InisialData = true;
+            if (Select == 0) LoadData = true;
             titleIsActive = false;
             StartCoroutine(Wait1Sec());
         }

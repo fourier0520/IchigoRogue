@@ -48,7 +48,7 @@ public class SaveManager : MonoBehaviour {
     static public string LoadJson(string path, string file)
     {
         string json = "";
-        if (!TitleDataLoad.instance.InisialData)
+        if (TitleDataLoad.instance.LoadData)
         {
             foreach (JsonBuffer b in DataBuffer)
             {
