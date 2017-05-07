@@ -10,8 +10,6 @@ public class ItemSelectWindow : MenuWindow
     public int PreviousItemSelectWindowIndex = -255;
     public Text ItemSelectWindowText;
 
-    Player player;
-
     // Use this for initialization
     protected override void Start()
     {
@@ -26,12 +24,10 @@ public class ItemSelectWindow : MenuWindow
 
         int ItemWindowIndex = ItemWindow.GetComponent<ItemWindow>().ItemWindowIndex;
 
-        player = Player.instance;
-
         List<string> ItemSelectCommands = new List<string>();
         ItemSelectCommands.Clear();
 
-        if (player.CheckEquipDest (player.Inventory.Items[ItemWindowIndex]) == Player.EquipDest.None)
+        if (player.CheckEquipDest (player.Inventory.Items[ItemWindowIndex]) == MovingObject.EquipDest.None)
         {
             if (player.Inventory.Items[ItemWindowIndex].GetProfile().EqTypeValue == ItemProfile.EquipType.OneHand)
             {
@@ -151,23 +147,23 @@ public class ItemSelectWindow : MenuWindow
 
             if (ItemSelectCommands[ItemSelectWindowIndex] == "使う")
             {
-                GameManager.instance.player.UseItem = player.Inventory.Items[ItemWindowIndex];
+                player.UseItem = player.Inventory.Items[ItemWindowIndex];
                 MenuWindow.Command = WindowTurnCommand.UseItem;
                 State = WindowState.Decide;
             }
 
             if (ItemSelectCommands[ItemSelectWindowIndex] == "投げる")
             {
-                GameManager.instance.player.ThrowItem = player.Inventory.Items[ItemWindowIndex];
+                player.ThrowItem = player.Inventory.Items[ItemWindowIndex];
                 MenuWindow.Command = WindowTurnCommand.ThrowItem;
                 State = WindowState.Decide;
             }
 
             if (ItemSelectCommands[ItemSelectWindowIndex] == "置く")
             {
-                if (GameManager.instance.CanPutItem(Player.instance))
+                if (GameManager.instance.CanPutItem(player))
                 {
-                    GameManager.instance.player.PutItem = player.Inventory.Items[ItemWindowIndex];
+                    player.PutItem = player.Inventory.Items[ItemWindowIndex];
                     MenuWindow.Command = WindowTurnCommand.PutItem;
                     State = WindowState.Decide;
                 }

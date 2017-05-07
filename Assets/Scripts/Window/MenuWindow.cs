@@ -12,6 +12,8 @@ public abstract class MenuWindow : MonoBehaviour {
     public string SelectionTag = "";
     public string SelectionTagFooter = "";
 
+    public static Character player = null;
+
     public enum WindowState
     {
         Inactive, Active, WaitChildren, Decide

@@ -13,8 +13,6 @@ public class ItemWindow : MenuWindow {
     private int page = 0;
     private int numberofpages = 1;
 
-    Player player;
-
     // Use this for initialization
     protected override void Start()
     {
@@ -25,8 +23,6 @@ public class ItemWindow : MenuWindow {
     protected override void MenuSpecificUpdate()
     {
         this.gameObject.SetActive(true);
-
-        player = Player.instance;
 
         int key = 0;
         page = ItemWindowIndex / ItemsPerPages;
@@ -50,7 +46,7 @@ public class ItemWindow : MenuWindow {
 
         if (Input.GetKeyDown("z"))
         {
-            if (GameManager.instance.player.Inventory.Items.Count <= ItemWindowIndex
+            if (player.Inventory.Items.Count <= ItemWindowIndex
                 || ItemWindowIndex < 0)
             {
                 return;
@@ -85,9 +81,9 @@ public class ItemWindow : MenuWindow {
             ItemWindowIndex -= ItemsPerPages;
         }
 
-        if (ItemWindowIndex > GameManager.instance.player.Inventory.Items.Count - 1)
+        if (ItemWindowIndex > player.Inventory.Items.Count - 1)
         {
-            ItemWindowIndex = GameManager.instance.player.Inventory.Items.Count - 1;
+            ItemWindowIndex = player.Inventory.Items.Count - 1;
         }
         if (ItemWindowIndex < 0)
         {
@@ -116,11 +112,11 @@ public class ItemWindow : MenuWindow {
         }
         ItemWindowText.text += "</color>";
         ItemWindowText.text += "\n";
-        if (GameManager.instance.player.Inventory.Items.Count != 0)
+        if (player.Inventory.Items.Count != 0)
         {
             for (int i = page * ItemsPerPages; i < page * ItemsPerPages + ItemsPerPages; i++)
             {
-                if (GameManager.instance.player.Inventory.Items.Count < (i + 1))
+                if (player.Inventory.Items.Count < (i + 1))
                 {
                     break;
                 }

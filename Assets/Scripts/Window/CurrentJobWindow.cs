@@ -11,10 +11,6 @@ public class CurrentJobWindow : MenuWindow
 
     public int JobWindowSubIndex = 0;
 
-
-
-    Player player;
-
     public string JobActivateTag = "E:";
 
     // Use this for initialization
@@ -27,8 +23,6 @@ public class CurrentJobWindow : MenuWindow
     protected override void MenuSpecificUpdate()
     {
         this.gameObject.SetActive(true);
-
-        player = Player.instance;
 
         int key = 0;
 

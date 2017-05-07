@@ -15,13 +15,9 @@ public class JobWindow : MenuWindow
 
     bool LevelUpDecision = false;
 
-    Player player;
-
     // Use this for initialization
     protected override void Start()
     {
-        player = Player.instance;
-
         //Jobは増えたり減ったりする可能性あり
         List<JobData> EmptyJobList = JobManager.instance.GetEmptyJobList();
         for(int i = 0;  i <EmptyJobList.Count; i++)
@@ -39,9 +35,7 @@ public class JobWindow : MenuWindow
     protected override void MenuSpecificUpdate()
     {
         this.gameObject.SetActive(true);
-
-        player = Player.instance;
-
+        
         int key = 0;
 
         if (Input.GetAxisRaw("Horizontal") > 0) key = 6;

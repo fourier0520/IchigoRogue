@@ -11,8 +11,6 @@ public class ActiveSkillWindow : MenuWindow
 
     public int JobWindowSubIndex = 0;
     
-    Player player;
-
     public string JobActivateTag = "E:";
     public string JobPassiveTag = "P:";
 
@@ -28,8 +26,6 @@ public class ActiveSkillWindow : MenuWindow
     protected override void MenuSpecificUpdate()
     {
         this.gameObject.SetActive(true);
-
-        player = Player.instance;
 
         SkillList = new List<SkillData>();
         SkillList.Clear();
