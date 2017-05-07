@@ -7,7 +7,8 @@ using System.Linq;
 
 public class NPC : Character {
 
-
+    public bool swapFlag = false;
+    public Vector2 SwapDestPos = new Vector2();
     int TurnCount = 0;
 
     protected override void Start()
@@ -31,11 +32,24 @@ public class NPC : Character {
     //敵キャラ移動用メソッド　GameManagerから呼ばれる
     public TurnCommand CommandNPC()
     {
-        SetCommand(TurnCommand.Undef);
+        if (swapFlag)
+        {
+            swapFlag = false;
+            SetCommand(TurnCommand.Move);
+            destPos = SwapDestPos;
+            return GetCommand();
+        }
+        else
+        {
+            SetCommand(TurnCommand.Undef);
+        }
         int xDir = 0;
         int yDir = 0;
 
-        if (Status.UsableMagicList.Count > 0) SetCommand(SpecialCommand());
+        if (GetCommand() == TurnCommand.Undef)
+        {
+            if (Status.UsableMagicList.Count > 0) SetCommand(SpecialCommand());
+        }
 
         if (GetCommand() == TurnCommand.Undef)
         {

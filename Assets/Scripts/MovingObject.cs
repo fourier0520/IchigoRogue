@@ -435,7 +435,7 @@ public abstract class MovingObject : MonoBehaviour {
     //移動を試みるメソッド
     //virtual : 継承されるメソッドに付ける修飾子
     //<T>：ジェネリック機能　型を決めておかず、後から指定する
-    protected virtual bool AttemptMove<T>(int xDir, int yDir)
+    public virtual bool AttemptMove<T>(int xDir, int yDir)
         //ジェネリック用の型引数をComponent型で限定
         where T : Component
     {

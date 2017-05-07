@@ -65,7 +65,6 @@ public class Player : Character
 
         int x = 0;
         int y = 0;
-        bool endTurn = false;
         bool isAttack = false;
         SetCommand(TurnCommand.Undef);
 
@@ -153,10 +152,28 @@ public class Player : Character
             if (((x != 0 || y != 0) && !Input.GetKey("v")) || (x != 0 && y != 0 && Input.GetKey("v")))
             {
                 SetDirection(new Vector2(x, y));
-                endTurn = AttemptMove<Wall>(x, y);
-                if (endTurn && !Input.GetKey("c"))
+                if (Input.GetKey("c"))
+                {
+                    //振り向きのみ
+                }
+                else if (AttemptMove<Wall>(x, y))
                 {
                     SetCommand(TurnCommand.Move);
+                }
+                else if (Input.GetKey(KeyCode.LeftShift))
+                {
+                    MovingObject obj = GameManager.instance.ExitstMovingObject(logicalPos + GetDirection());
+                    if (obj != null)
+                    {
+                        NPC npc = obj.gameObject.GetComponent<NPC>();
+                        if (npc != null)
+                        {
+                            destPos += GetDirection();
+                            npc.SwapDestPos = logicalPos;
+                            SetCommand(TurnCommand.Move);
+                            npc.swapFlag = true;
+                        }
+                    }
                 }
             }
             playerAnimator.SetInteger("Direction", GetDirectionNumber());
@@ -219,11 +236,6 @@ public class Player : Character
         {
             Status.food = Status.food_max;
         }
-    }
-
-    protected override bool AttemptMove<T>(int xDir, int yDir)
-    {
-        return base.AttemptMove<T>(xDir, yDir);
     }
 
     protected override void OnDestroy()

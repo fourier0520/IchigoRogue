@@ -18,11 +18,6 @@ public class Enemy : MovingObject
         base.Start();
     }
 
-    protected override bool AttemptMove<T>(int xDir, int yDir)
-    {
-        return base.AttemptMove<T>(xDir, yDir);
-    }
-
     protected override void Update()
     {
         if (!allowEnemyMoveAnimation)

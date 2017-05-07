@@ -278,25 +278,6 @@ public class GameManager : MonoBehaviour
             enemyAttacked = false;
             if (CheckCanActionEnemy())
             {
-                for (int i = 0; i < enemies.Count; i++)
-                {
-                    if (enemies[i].CanAction())
-                    {
-                        enemies[i].remainingActionCommandTime -= enemies[i].GetActionCommandTime();
-                        enemies[i].CommandEnemy();
-                        if (enemies[i].GetCommand() == MovingObject.TurnCommand.Move)
-                        {
-                            enemies[i].Move();
-                            enemyMoved = true;
-                            enemies[i].SetCommand(MovingObject.TurnCommand.Undef);
-                        }
-                        if (enemies[i].GetCommand() == MovingObject.TurnCommand.Attack
-                            || enemies[i].GetCommand() == MovingObject.TurnCommand.CastMagic)
-                        {
-                            enemyAttacked = true;
-                        }
-                    }
-                }
                 for (int i = 0; i < NPCs.Count; i++)
                 {
                     if (NPCs[i].CanAction())
@@ -309,13 +290,49 @@ public class GameManager : MonoBehaviour
                             enemyMoved = true;
                             NPCs[i].SetCommand(MovingObject.TurnCommand.Undef);
                         }
-                        if (NPCs[i].GetCommand() == MovingObject.TurnCommand.Attack
-                            || NPCs[i].GetCommand() == MovingObject.TurnCommand.CastMagic)
+                    }
+                }
+                for (int i = 0; i < enemies.Count; i++)
+                {
+                    if (enemies[i].CanAction())
+                    {
+                        enemies[i].remainingActionCommandTime -= enemies[i].GetActionCommandTime();
+                        enemies[i].CommandEnemy();
+                        if (enemies[i].GetCommand() == MovingObject.TurnCommand.Move)
                         {
-                            enemyAttacked = true;
+                            enemies[i].Move();
+                            enemyMoved = true;
+                            enemies[i].SetCommand(MovingObject.TurnCommand.Undef);
                         }
                     }
                 }
+
+                //攻撃目標再設定
+                for (int i = 0; i < NPCs.Count; i++)
+                {
+                    if (NPCs[i].GetCommand() != MovingObject.TurnCommand.Undef)
+                    {
+                        NPCs[i].CommandNPC();
+                    }
+                    if (NPCs[i].GetCommand() == MovingObject.TurnCommand.Attack
+                        || NPCs[i].GetCommand() == MovingObject.TurnCommand.CastMagic)
+                    {
+                        enemyAttacked = true;
+                    }
+                }
+                for (int i = 0; i < enemies.Count; i++)
+                {
+                    if (enemies[i].GetCommand() != MovingObject.TurnCommand.Undef)
+                    {
+                        enemies[i].CommandEnemy();
+                    }
+                    if (enemies[i].GetCommand() == MovingObject.TurnCommand.Attack
+                        || enemies[i].GetCommand() == MovingObject.TurnCommand.CastMagic)
+                    {
+                        enemyAttacked = true;
+                    }
+                }
+
                 phase = GamePhase.EnemyMove;
             }
             else

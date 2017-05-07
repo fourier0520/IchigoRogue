@@ -171,11 +171,6 @@ public class Character : MovingObject
         }
     }
 
-    protected override bool AttemptMove<T>(int xDir, int yDir)
-    {
-        return base.AttemptMove<T>(xDir, yDir);
-    }
-
     protected override void OnDestroy()
     {
         MessageWindow.instance.ConOut(Status.Name + "は倒れてしまった！\n");
