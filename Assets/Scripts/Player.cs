@@ -72,6 +72,15 @@ public class Player : Character
 
         if (Input.GetKeyDown("x"))
         {
+            MenuWindow.player = this;
+            GameManager.instance.MainWindow.gameObject.SetActive(true);
+            GameManager.instance.MainWindow.State = MenuWindow.WindowState.Active;
+            return;
+        }
+
+        if (Input.GetKeyDown("s"))
+        {
+            MenuWindow.player = GameManager.instance.GetNPCList()[0];
             GameManager.instance.MainWindow.gameObject.SetActive(true);
             GameManager.instance.MainWindow.State = MenuWindow.WindowState.Active;
             return;

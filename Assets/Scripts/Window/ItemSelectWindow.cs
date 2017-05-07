@@ -55,12 +55,16 @@ public class ItemSelectWindow : MenuWindow
                 ItemSelectCommands.Add("はずす");
             }
         }
-        if (player.Inventory.Items[ItemWindowIndex].GetProfile().UseEffectTypeValue != ItemProfile.ItemType.NoEffect)
+        if(player == Player.instance)
         {
-            ItemSelectCommands.Add("使う");
+            if (player.Inventory.Items[ItemWindowIndex].GetProfile().UseEffectTypeValue != ItemProfile.ItemType.NoEffect)
+            {
+                ItemSelectCommands.Add("使う");
+            }
+            ItemSelectCommands.Add("投げる");
+            ItemSelectCommands.Add("置く");
+            ItemSelectCommands.Add("渡す");
         }
-        ItemSelectCommands.Add("投げる");
-        ItemSelectCommands.Add("置く");
         ItemSelectCommands.Add("やめる");
 
         if (Input.GetAxisRaw("Horizontal") > 0) key = 6;
@@ -170,6 +174,32 @@ public class ItemSelectWindow : MenuWindow
                 else
                 {
                     MessageWindow.instance.ConOut("ここには置けません。");
+                }
+            }
+
+            if (ItemSelectCommands[ItemSelectWindowIndex] == "渡す")
+            {
+                bool success = false;
+                foreach(NPC npc in GameManager.instance.GetNPCList())
+                {
+                    if (npc.logicalPos == player.logicalPos + player.GetDirection())
+                    {
+                        success = true;
+                        if (npc.Inventory.AddItem(player.Inventory.Items[ItemWindowIndex]))
+                        {
+                            player.Inventory.RemoveItem(player.Inventory.Items[ItemWindowIndex], player.Inventory.Items[ItemWindowIndex].stack);
+                            State = WindowState.Inactive;
+                            break;
+                        }
+                        else
+                        {
+                            MessageWindow.instance.ConOut("アイテムを渡せませんでした。");
+                        }
+                    }
+                }
+                if (!success)
+                {
+                    MessageWindow.instance.ConOut("その方向には誰もいません。");
                 }
             }
 

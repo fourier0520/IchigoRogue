@@ -182,6 +182,18 @@ public class Character : MovingObject
         throw new NotImplementedException();
     }
 
+    public bool CheckEquipAvailable(ItemNode node)
+    {
+        foreach (string id in node.GetProfile().NGJobIDsList)
+        {
+            if (id == CurrentJob.ID)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
     //-----------------------------------------------------------------------//
     //
     // 戦闘判定用

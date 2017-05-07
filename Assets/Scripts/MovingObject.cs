@@ -868,18 +868,6 @@ public abstract class MovingObject : MonoBehaviour {
         Equip.Armor = null;
     }
 
-    public bool CheckEquipAvailable(ItemNode node)
-    {
-        foreach (string id in node.GetProfile().NGJobIDsList)
-        {
-            if (id == Player.instance.CurrentJob.ID)
-            {
-                return false;
-            }
-        }
-        return true;
-    }
-
     public void VerifyEquip()
     {
         if (!Inventory.CheckExistItem(Equip.RightHand)) Equip.RightHand = null;
